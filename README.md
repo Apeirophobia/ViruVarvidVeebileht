@@ -2,6 +2,7 @@
 
 # Developers
 Ervin Püsijainen
+Savva Smirnyagin
 
 <h2>Project Setup<h2>
 
