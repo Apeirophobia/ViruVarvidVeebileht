@@ -1,10 +1,10 @@
-# ViruVarvidVeebileht
+<h1>ViruVarvidVeebileht</h1>
 
-# Developers
+<h2>Developers</h2>
 Ervin Püsijainen
 Savva Smirnyagin
 
-<h2>Project Setup<h2>
+<h2>Project Setup</h2>
 
 Clone project to your system
 
