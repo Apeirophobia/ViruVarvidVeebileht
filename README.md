@@ -3,6 +3,7 @@
 <h2>Developers</h2>
 Ervin Püsijainen
 Savva Smirnyagin
+Artur Petrovski
 
 <h2>Project Setup</h2>
 
