@@ -30,3 +30,4 @@ Install following packages (npm install 'package_name')
 Create file named: ".env" - use ".env.example" as a base
 .env contains secrets that are needed to run the APIs and connect to the database.
 
+![erd](image.png)
