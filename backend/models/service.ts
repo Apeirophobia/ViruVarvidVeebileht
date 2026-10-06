@@ -7,7 +7,7 @@ export default function ServiceModel(
     const Service = sequelize.define(
         "Service", {
             // need uuid
-            ServiceId: {
+            ServiceID: {
                 type: dataTypes.UUIDV4
             },
             ServiceName: {

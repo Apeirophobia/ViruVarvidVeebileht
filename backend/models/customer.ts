@@ -6,7 +6,7 @@ export default function CustomerModel (
 ) {
     const Customer = sequelize.define(
         "Customer", {
-            CustomerId: {
+            CustomerID: {
                 type: dataTypes.UUIDV4
             },
             FirstName: {
@@ -25,7 +25,7 @@ export default function CustomerModel (
                 type: dataTypes.STRING, 
                 allowNull: false 
             },
-            OrderListId: {
+            OrderListID: {
                 type: dataTypes.ARRAY(dataTypes.STRING),
                 allowNull: true
             }
