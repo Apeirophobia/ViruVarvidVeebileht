@@ -50,4 +50,4 @@ to run production code: npm run start
 to close server: CTRL + C in Terminal
 
 <h2>Project Database Entity Relationship Diagram</h2>
-<img src="erd.png"/>
+![erd](image.png)

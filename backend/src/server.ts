@@ -65,6 +65,22 @@ app.get("/services/:id", (req: Request, res: Response) => {
     res.send(result);
 });
 
+app.delete("/services/:id", (req: Request, res: Response) => {
+    if (!req.params.id) { //Could never happen, but just in case
+        res.status(400).send({error: "Service id is required"});
+        return;
+    }
+    const serviceId = req.params.id ? typeof req.params.id === "string" ? parseInt(req.params.id) : parseInt(req.params.id[0]!) : null;
+    const result = services.filter(service => service.id === serviceId)[0];
+
+     if (typeof result[0] === undefined){ 
+        return res.status(404).send({ error: "Widget not found" })
+    }
+    
+    services.splice(result[0]-1,1)
+    res.status(204).send()
+    
+});
 app.listen(PORT, () => {
     console.log(`Server is launched on http://localhost:${PORT}/`);
 })
