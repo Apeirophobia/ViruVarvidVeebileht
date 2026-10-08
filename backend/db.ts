@@ -1,13 +1,13 @@
 import {Sequelize, DataTypes} from 'sequelize';
 
 //modelite pathid
-import WadModel from "../backend/models/service.ts";
+import ServiceModel from "../backend/models/service.ts";
 
 //sequelizei andmebaasi ühendusanddmed
 const sequelize = new Sequelize(
     process.env.DB_NAME!,
     process.env.DB_USERNAME!,
-    process.env.DB_PASSWORD!
+    process.env.DB_PASSWORD!,
     {
         host: process.env.DB_HOSTNAME!,
         dialect: "mariadb",
@@ -30,7 +30,7 @@ const connect = async (): Promise<void> => {
 const db = {
     Sequelize, 
     sequelize,
-    wads: require("../backend/models/Wad.ts")(sequelize, DataTypes)
+    services: require("../backend/models/service.ts")(sequelize, DataTypes)
 };
 
 //sünkroonmeetod

@@ -23,6 +23,7 @@
   "dependencies": {
     "dotenv": "^18.0.5",
     "express": "^5.2.1",
-    "sequelize": "^6.37.8"
+    "sequelize": "^6.37.8",
+    "uuid": "^14.0.2"
   }
 }
