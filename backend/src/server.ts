@@ -29,18 +29,22 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.get("/services", (req: Request, res: Response) => {
-    let result: Array<object> = [];
+    let result: Array<object> = services.map((service) => ({
+        id: service.id,
+        name: service.name,
+        price: service.price,
+    }));
 
-    services.forEach((service) => {
-        const newService = {
-            id: service.id,
-            name: service.name,
-            price: service.price,
+    // services.forEach((service) => {
+    //     const newService = {
+    //         id: service.id,
+    //         name: service.name,
+    //         price: service.price,
 
-        }
+    //     }
 
-        result.push(newService);
-    });
+    //     result.push(newService);
+    // });
 
     res.send(result);
 });
