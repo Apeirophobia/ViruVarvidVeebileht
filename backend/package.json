@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
-    "dev": "nodemon src/server.ts",
+    "dev": "nodemon src/index.ts",
     "watch": "tsc -w"
   },
   "keywords": [],
@@ -21,8 +21,10 @@
     "typescript": "^7.0.2"
   },
   "dependencies": {
+    "cors": "^2.8.6",
     "dotenv": "^18.0.5",
     "express": "^5.2.1",
-    "sequelize": "^6.37.8"
+    "sequelize": "^6.37.8",
+    "uuid": "^14.0.2"
   }
 }
