@@ -1,4 +1,4 @@
-import ServicesController from "../controllers/ServicesController";
+import ServicesController from "../controllers/ServicesController.ts";
 import { Express } from "express";
 
 export default (app: Express): void => {
