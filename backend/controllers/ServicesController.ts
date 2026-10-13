@@ -43,7 +43,22 @@ const ServicesController = {
                 )
             )
         )
-    }
+    },
+
+    async getByID(req: Request, res: Response) {
+        const serviceID: string = req.params.id;
+        
+        const service = await db.services.findByPk(serviceID);
+    
+        if (!service || service === undefined) {
+            res.status(404).send(
+                {
+                    error: `Service with this ID is not found: ${serviceID}`
+                });
+            return null;
+        }
+        return service;
+    }   
 
 }
 
