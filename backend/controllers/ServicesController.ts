@@ -46,7 +46,7 @@ const ServicesController = {
     },
 
     async getByID(req: Request, res: Response) {
-        const serviceID: string = req.params.id;
+        const serviceID: String = req.params.id as String;
         
         const service = await db.services.findByPk(serviceID);
     
@@ -58,7 +58,35 @@ const ServicesController = {
             return null;
         }
         return service;
-    }   
+    },   
+
+    async modifyById(req: Request, res: Response) {
+        const serviceToBeModified = await this.getByID(req, res);
+        if (!serviceToBeModified) {
+            return;
+        }
+        if (    
+            !req.body.ServiceName ||
+            !req.body.Price ||
+            !req.body.Category ||
+            !req.body.Description
+        ) {
+            return res.status(400).send({
+                error: "Missing parameters, please review data"
+            })
+        }   
+
+        serviceToBeModified.ServiceName = req.body.ServiceName;
+        serviceToBeModified.Price = req.body.Price;
+        serviceToBeModified.Category = req.body.Category;
+        serviceToBeModified.Description = req.body.Description;
+
+        await serviceToBeModified.save();
+        return res
+        .location(`${Utilities.getBaseURL(req)}/services/${serviceToBeModified.ServiceID}`)
+        .status(201)
+        .send(serviceToBeModified);
+    }
 
 }
 
