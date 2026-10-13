@@ -60,7 +60,7 @@ const ServicesController = {
         return service;
     },   
 
-    async modifyById(req: Request, res: Response) {
+    async modifyByID(req: Request, res: Response) {
         const serviceToBeModified = await this.getByID(req, res);
         if (!serviceToBeModified) {
             return;
@@ -86,8 +86,18 @@ const ServicesController = {
         .location(`${Utilities.getBaseURL(req)}/services/${serviceToBeModified.ServiceID}`)
         .status(201)
         .send(serviceToBeModified);
-    }
+    },
+    async deleteByID(req: Request, res: Response) {
+        const serviceToBeDeleted = await this.getByID(req, res);
+        if (!serviceToBeDeleted) {
+            return;
+        }
 
+        await serviceToBeDeleted.destroy();
+        return res.status(204)
+        .send({error: "No content"});
+    }
+    
 }
 
 export default ServicesController;
