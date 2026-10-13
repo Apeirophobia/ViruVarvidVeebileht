@@ -5,7 +5,7 @@ import { v7 as uuidv7 } from "uuid";
 
 const ServicesController = {
 
-    async create (req: Request, res: Response) => {
+    async create (req: Request, res: Response) {
         if (    
             !req.body.ServiceName ||
             !req.body.Price ||
@@ -25,10 +25,24 @@ const ServicesController = {
             Category: req.body.price,
         }
 
-        const createdService = await db.games.create(newService);
+        const createdService = await db.services.create(newService);
         return res
         .location(`${Utilities.getBaseURL(req)}/games/${createdService.ServiceID}`).sendStatus(201);
 
+    },
+
+    async getAll(req: Request, res: Response) {
+        const services = await db.services.findAll();
+        console.log("getAll: ", services);
+        return res
+        .status(200)
+        .send(
+            services.map(
+                (
+                    ({ServiceID, ServiceName}) => { return {ServiceID, ServiceName}}
+                )
+            )
+        )
     }
 
 }
