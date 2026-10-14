@@ -30,7 +30,8 @@ const connect = async (): Promise<void> => {
 const db = {
     Sequelize, 
     sequelize,
-    services: require("../backend/models/service.ts")(sequelize, DataTypes)
+    services: require("../backend/models/service.ts")(sequelize, DataTypes),
+    contacts: require("../backend/models/contacts.ts")(sequelize, DataTypes)
 };
 
 //sünkroonmeetod
