@@ -10,4 +10,12 @@ export default (app: Express): void => {
     .get(ServicesController.getById)
     .delete(ServicesController.deleteById)
     .put(ServicesController.modifyById)
+
+    app.route("/contacts")
+        .get(ContactsController.getAll)
+        .post(ContactsController.create)
+    app.route("/contacts/:id")
+        .get(ContactsController.getById)
+        .put(ContactsController.updateById)
+        .delete(ContactsController.deleteById)
 }
