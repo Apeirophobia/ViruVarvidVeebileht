@@ -18,4 +18,5 @@ export default (app: Express): void => {
     app.route("/contacts/:id")
         .get(ContactsController.getById)
         .put(ContactsController.updateById)
+        .delete(ContactsController.deleteById)
 }

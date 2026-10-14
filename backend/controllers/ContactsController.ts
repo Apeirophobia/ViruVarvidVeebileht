@@ -65,6 +65,17 @@ const ContactsController = {
         await contact.save();
 
         return res.status(200).send(contact);
+    },
+
+    async deleteById(req: Request, res: Response) {
+        const contact = await db.contacts.findByPk(req.params.id);
+
+        if (!contact) {
+            return res.status(404).send({ error: "Contact not found" });
+        }
+
+        await contact.destroy();
+        return res.status(204).send();
     }
 } 
 
