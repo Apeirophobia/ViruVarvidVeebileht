@@ -1,4 +1,5 @@
 import ServicesController from "../controllers/ServicesController.ts";
+import ContactsController from "../controllers/ContactsController.ts";
 import { Express } from "express";
 
 export default (app: Express): void => {
@@ -17,5 +18,4 @@ export default (app: Express): void => {
     app.route("/contacts/:id")
         .get(ContactsController.getById)
         .put(ContactsController.updateById)
-        .delete(ContactsController.deleteById)
 }
