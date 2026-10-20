@@ -42,4 +42,9 @@ const CustomerController = {
          return res.location(`${Utilities.getBaseURL(req)}/customers/${result.id}`).sendStatus(201)
 
     },
+
+    async getAll(req: Request, res: Response) { 
+        const customers = await db.customers.findAll();
+        return res.status(200).send(customers);
+        },
 }
