@@ -32,8 +32,15 @@ const db = {
     sequelize,
     services: require("../backend/models/service.ts")(sequelize, DataTypes),
     contacts: require("../backend/models/contacts.ts")(sequelize, DataTypes),
-    customers: require("../backend/models/customer.ts")(sequelize, DataTypes)
+    customers: require("../backend/models/customer.ts")(sequelize, DataTypes),
+    orders: require("../backend/models/order.ts")(sequelize, DataTypes)
 };
+db.orders = require("../backend/models/order.ts")(sequelize, DataTypes, db.customers, db.services)
+db.services.BelongsToMany(db.customers, {through: db.orders, as: "CustomerID"})
+db.customers.BelongsTo(db.services, {through: db.orders, as: "ServiceID"})
+
+db.customers.hasMany(db.orders, {foreignKey: "CustomerID" as "ServiceID"})
+db.orders.BelongsTo(db.customers, {foreignKey: "CustomerID" as "ServiceID"})
 
 //sünkroonmeetod
 const sync = async(): Promise<void> => {
