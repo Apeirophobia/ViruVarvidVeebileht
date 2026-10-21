@@ -31,7 +31,8 @@ const db = {
     Sequelize, 
     sequelize,
     services: require("../backend/models/service.ts")(sequelize, DataTypes),
-    contacts: require("../backend/models/contacts.ts")(sequelize, DataTypes)
+    contacts: require("../backend/models/contacts.ts")(sequelize, DataTypes),
+    customers: require("../backend/models/customer.ts")(sequelize, DataTypes)
 };
 
 //sünkroonmeetod
