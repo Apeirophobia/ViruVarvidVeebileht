@@ -21,6 +21,10 @@ export default function CustomerModel (
                 type: dataTypes.STRING, 
                 allowNull: false 
             },
+            Email: {
+                type: dataTypes.STRING, 
+                allowNull: false 
+            },
             Password: {
                 type: dataTypes.STRING, 
                 allowNull: false 
