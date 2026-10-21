@@ -7,13 +7,37 @@ export default function OrderModel (
     const Order = sequelize.define(
         "Order", {
             OrderID: {
-                type: dataTypes.UUIDV4
+                type: dataTypes.UUIDV4,
+                primaryKey: true
             },
+            ServiceCategory: {
+                type: dataTypes.STRING,
+                allowNull: false
+            },
+            Price: {
+                type: dataTypes.INTEGER,
+                allowNull: false
+            },
+            CustomerName: {
+                type: dataTypes.STRING,
+                allowNull: false
+            },
+            CustomerEmail: {
+                type: dataTypes.STRING,
+                allowNull: false
+            },
+            OrderedAt: {
+                type: dataTypes.DATE,
+                allowNull: false
+            },
+            //võõrvõtmed
             ServiceID: {
-                type: dataTypes.UUIDV4
+                type: dataTypes.UUID,
+                allowNull: false
             },
             CustomerID: {
-                type: dataTypes.UUIDV4
+                type: dataTypes.UUID,
+                allowNull: false
             }
         }
     )
