@@ -37,3 +37,5 @@ const OrdersController = {
 
     }
 }
+
+export default OrdersController;
