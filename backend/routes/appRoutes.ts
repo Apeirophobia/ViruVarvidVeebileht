@@ -1,16 +1,17 @@
 import ServicesController from "../controllers/ServicesController.ts";
 import ContactsController from "../controllers/ContactsController.ts";
-import { Express } from "express";
+import OrdersController from "../controllers/OrdersController.ts"
+import express from "express";
 
-export default (app: Express): void => {
+export default (app: express): void => {
     app.route("/services")
     .get(ServicesController.getAll)
     .post(ServicesController.create)
 
     app.route("/services/:id")
-    .get(ServicesController.getById)
-    .delete(ServicesController.deleteById)
-    .put(ServicesController.modifyById)
+    .get(ServicesController.getByID)
+    .delete(ServicesController.deleteByID)
+    .put(ServicesController.modifyByID)
 
     app.route("/contacts")
         .get(ContactsController.getAll)
@@ -19,4 +20,7 @@ export default (app: Express): void => {
         .get(ContactsController.getById)
         .put(ContactsController.updateById)
         .delete(ContactsController.deleteById)
+    
+    app.route("/orders/")
+        .post(OrdersController.create)
 }
