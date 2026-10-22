@@ -1,32 +1,51 @@
-import { Sequelize, DataTypes } from "sequelize";
+import { DataTypes, Model } from "sequelize";
+import type { InferAttributes, InferCreationAttributes, CreationOptional, Sequelize } from "sequelize";
 
-export default function ServiceModel(
-    sequelize: Sequelize,
-    dataTypes: typeof DataTypes
-) {
-    const Service = sequelize.define(
-        "Service", {
-            // need uuid
-            ServiceID: {
-                type: dataTypes.UUIDV4,
-                primaryKey: true
-            },
-            ServiceName: {
-                type: dataTypes.STRING,
-                allowNull: false
-            },
-            Price: {
-                type: dataTypes.INTEGER,
-                allowNull: false
-            },
-            Category: {
-                type: dataTypes.STRING,
-                allowNull: false
-            },
-            Description: {
-                type: dataTypes.STRING
-            }
-        }
-    )
-    console.log(Service === sequelize.models.Service);
+export class Service extends Model<InferAttributes<Service>, InferCreationAttributes<Service>> {
+  declare ServiceName: string;
+  declare Price: number;
+  declare Category: string;
+
+  declare ServiceID: CreationOptional<string>;
+  declare Description: CreationOptional<string | null>;
+
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
+}
+
+export default function initServiceModel(sequelize: Sequelize) {
+  Service.init(
+    {
+      ServiceID: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      ServiceName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      Price: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      Category: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      Description: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      createdAt: DataTypes.DATE,
+      updatedAt: DataTypes.DATE,
+    },
+    {
+      sequelize,
+      modelName: "Service",
+      tableName: "Services",
+    }
+  );
+
+  return Service;
 }
