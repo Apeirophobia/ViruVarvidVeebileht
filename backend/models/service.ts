@@ -42,8 +42,7 @@ export default function initServiceModel(sequelize: Sequelize) {
     },
     {
       sequelize,
-      modelName: "Service",
-      tableName: "Services",
+      modelName: "Service"
     }
   );
 
