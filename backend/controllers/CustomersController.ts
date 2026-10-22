@@ -11,6 +11,7 @@ const CustomerController = {
             !req.body.FirstName ||
             !req.body.LastName ||
             !req.body.DisplayName ||
+            !req.body.Email ||
             !req.body.Password ||
             !req.body.PasswordConfirmation
         ) {
@@ -29,6 +30,7 @@ const CustomerController = {
             FirstName: req.body.FirstName,
             LastName: req.body.LastName,
             DisplayName: req.body.DisplayName,
+            Email: req.body.Email,
             Password: req.body.Password,
             OrderListID: uuidv7(),
             SignupDate: Date.now,

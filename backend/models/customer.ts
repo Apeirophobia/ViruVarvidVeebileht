@@ -7,7 +7,8 @@ export default function CustomerModel (
     const Customer = sequelize.define(
         "Customer", {
             CustomerID: {
-                type: dataTypes.UUIDV4
+                type: dataTypes.UUIDV4,
+                primaryKey: true
             },
             FirstName: {
                 type: dataTypes.STRING, 
@@ -21,6 +22,10 @@ export default function CustomerModel (
                 type: dataTypes.STRING, 
                 allowNull: false 
             },
+            Email: {
+                type: dataTypes.STRING, 
+                allowNull: false 
+            },
             Password: {
                 type: dataTypes.STRING, 
                 allowNull: false 
@@ -31,4 +36,7 @@ export default function CustomerModel (
             }
         }
     )
+
+    console.log(Customer === sequelize.models.Customer);
+    return Customer;
 }

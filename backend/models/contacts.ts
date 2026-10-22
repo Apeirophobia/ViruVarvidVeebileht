@@ -7,7 +7,8 @@ export default function ContactModel (
     const Contact = sequelize.define(
         "Contact", {
             ContactID: {
-                type: dataTypes.UUIDV4
+                type: dataTypes.UUIDV4,
+                primaryKey: true
             },
             Name: {
                 type: dataTypes.STRING
