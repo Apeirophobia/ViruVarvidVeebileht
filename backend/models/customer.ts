@@ -7,7 +7,8 @@ export default function CustomerModel (
     const Customer = sequelize.define(
         "Customer", {
             CustomerID: {
-                type: dataTypes.UUIDV4
+                type: dataTypes.UUIDV4,
+                primaryKey: true
             },
             FirstName: {
                 type: dataTypes.STRING, 
@@ -35,4 +36,7 @@ export default function CustomerModel (
             }
         }
     )
+
+    console.log(Customer === sequelize.models.Customer);
+    return Customer;
 }
