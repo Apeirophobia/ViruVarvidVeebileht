@@ -1,10 +1,24 @@
-import { Sequelize, DataTypes } from "sequelize";
+import { DataTypes, Model} from "sequelize";
+import type { InferAttributes, InferCreationAttributes, CreationOptional, Sequelize } from "sequelize";
 
-export default function CustomerModel (
-    sequelize: Sequelize,
-    dataTypes: typeof DataTypes
+
+export class Customer extends initCustomerModel<InferAttributes<Customer>, InferCreationAttributes<Customer>> {
+    declare FirstName: string;
+    declare LastName: string;
+    declare DisplayName: string;
+    declare Email: string;
+    declare Password: string;
+
+    declare CustomerID: CreationOptional<string>;
+    declare OrderIDList: CreationOptional<string>;
+    
+}
+
+
+export default function initCustomerModel (
+    sequelize: Sequelize
 ) {
-    const Customer = sequelize.define(
+    Customer.init(
         "Customer", {
             CustomerID: {
                 type: dataTypes.UUIDV4,
@@ -30,10 +44,14 @@ export default function CustomerModel (
                 type: dataTypes.STRING, 
                 allowNull: false 
             },
-            OrderListID: {
+            OrderIDList: {
                 type: dataTypes.ARRAY(dataTypes.STRING),
                 allowNull: true
             }
+        },
+        {
+            sequelize,
+            modelName: "Customer"
         }
     )
 
