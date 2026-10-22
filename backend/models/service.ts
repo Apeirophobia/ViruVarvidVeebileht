@@ -8,7 +8,8 @@ export default function ServiceModel(
         "Service", {
             // need uuid
             ServiceID: {
-                type: dataTypes.UUIDV4
+                type: dataTypes.UUIDV4,
+                primaryKey: true
             },
             ServiceName: {
                 type: dataTypes.STRING,
@@ -27,4 +28,5 @@ export default function ServiceModel(
             }
         }
     )
+    console.log(Service === sequelize.models.Service);
 }
