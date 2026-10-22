@@ -21,31 +21,31 @@ export default function initCustomerModel (
     Customer.init(
         "Customer", {
             CustomerID: {
-                type: dataTypes.UUIDV4,
+                type: DataTypes.UUIDV4,
                 primaryKey: true
             },
             FirstName: {
-                type: dataTypes.STRING, 
+                type: DataTypes.STRING, 
                 allowNull: false 
             },
             LastName: {
-                type: dataTypes.STRING, 
+                type: DataTypes.STRING, 
                 allowNull: false 
             },
             DisplayName: {
-                type: dataTypes.STRING, 
+                type: DataTypes.STRING, 
                 allowNull: false 
             },
             Email: {
-                type: dataTypes.STRING, 
+                type: DataTypes.STRING, 
                 allowNull: false 
             },
             Password: {
-                type: dataTypes.STRING, 
+                type: DataTypes.STRING, 
                 allowNull: false 
             },
             OrderIDList: {
-                type: dataTypes.ARRAY(dataTypes.STRING),
+                type: DataTypes.ARRAY(DataTypes.STRING),
                 allowNull: true
             }
         },
