@@ -41,4 +41,6 @@ export default function OrderModel (
             }
         }
     )
+    console.log(Order === sequelize.models.Order);
+    return Order;
 }
