@@ -6,7 +6,7 @@ import appRoutes from "../routes/appRoutes.ts";
 
 dotenv.config();
 
-const port = process.env.PORT;
+const port = process.env.PORT || 8080;
 const host =  "localhost";
 
 const app = express();
