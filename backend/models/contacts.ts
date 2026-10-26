@@ -1,13 +1,19 @@
-import { Sequelize, DataTypes } from "sequelize";
+import { DataTypes, Model } from "sequelize";
+import type { CreationOptional, InferAttributes, InferCreationAttributes, Sequelize } from "sequelize";
 
-export default function ContactModel (
-    sequelize: Sequelize,
-    dataTypes: typeof DataTypes
-) {
-    const Contact = sequelize.define(
-        "Contact", {
+export class Contact extends Model<InferAttributes<Contact>, InferCreationAttributes<Contact>> {
+    declare ContactID: CreationOptional<string>;
+    declare Name: string | null;
+    declare Email: string | null;
+    declare PhoneNumber: string | null;
+}
+
+export default function initContactModel(sequelize: Sequelize) {
+    Contact.init(
+        {
             ContactID: {
-                type: DataTypes.UUIDV4,
+                type: DataTypes.UUID,
+                defaultValue: DataTypes.UUIDV4,
                 primaryKey: true
             },
             Name: {
@@ -21,6 +27,12 @@ export default function ContactModel (
                 type: DataTypes.STRING,
                 allowNull: true
             }
+        },
+        {
+            sequelize,
+            modelName: "Contact"
         }
-    )
+    );
+
+    return Contact;
 }
