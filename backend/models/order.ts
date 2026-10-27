@@ -1,4 +1,4 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, UUIDV4 } from "sequelize";
 import type { InferAttributes, InferCreationAttributes, CreationOptional, Sequelize } from "sequelize";
 
 
@@ -22,37 +22,38 @@ export default function initOrderModel (
     Order.init(
         {
             OrderID: {
-                type: DataTypes.UUIDV4,
+                type: DataTypes.UUID,
+                defaultValue: UUIDV4,
                 primaryKey: true
             },
             ServiceCategory: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: true
             },
             Price: {
                 type: DataTypes.INTEGER,
-                allowNull: false
+                allowNull: true
             },
             CustomerName: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: true
             },
             CustomerEmail: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: true
             },
             OrderedAt: {
                 type: DataTypes.DATE,
-                allowNull: false
+                allowNull: true
             },
             //võõrvõtmed
             ServiceID: {
                 type: DataTypes.UUID,
-                allowNull: false
+                allowNull: true
             },
             CustomerID: {
                 type: DataTypes.UUID,
-                allowNull: false
+                allowNull: true
             }
         },
         {
