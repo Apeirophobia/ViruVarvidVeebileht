@@ -3,7 +3,7 @@ import ContactsController from "../controllers/ContactsController.ts";
 import OrdersController from "../controllers/OrdersController.ts"
 import express from "express";
 
-export default (app: express): void => {
+export default (app: express.Application): void => {
     app.route("/services")
     .get(ServicesController.getAll)
     .post(ServicesController.create)
