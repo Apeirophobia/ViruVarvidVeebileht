@@ -1,5 +1,5 @@
 import "dotenv/config";
-import express from "express";
+import express, { urlencoded } from "express";
 // import dotenv from "dotenv";
 import cors from "cors";
 import { sync } from "../db.ts";
@@ -14,6 +14,9 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(urlencoded({
+    extended: true
+}));
 
 appRoutes(app);
 
