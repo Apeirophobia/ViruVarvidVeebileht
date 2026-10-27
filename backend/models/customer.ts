@@ -1,4 +1,4 @@
-import { DataTypes, Model} from "sequelize";
+import { DataTypes, Model, UUIDV4} from "sequelize";
 import type { InferAttributes, InferCreationAttributes, CreationOptional, Sequelize } from "sequelize";
 
 
@@ -10,7 +10,7 @@ export class Customer extends Model<InferAttributes<Customer>, InferCreationAttr
     declare Password: string;
 
     declare CustomerID: CreationOptional<string>;
-    declare OrderIDList: CreationOptional<string>;
+    declare OrderIDList: CreationOptional<JSON | null>;
     
 }
 
@@ -21,31 +21,32 @@ export default function initCustomerModel (
     Customer.init(
         {
             CustomerID: {
-                type: DataTypes.UUIDV4,
+                type: DataTypes.UUID,
+                defaultValue: UUIDV4,
                 primaryKey: true
             },
             FirstName: {
                 type: DataTypes.STRING, 
-                allowNull: false 
+                allowNull: true 
             },
             LastName: {
                 type: DataTypes.STRING, 
-                allowNull: false 
+                allowNull: true 
             },
             DisplayName: {
                 type: DataTypes.STRING, 
-                allowNull: false 
+                allowNull: true 
             },
             Email: {
                 type: DataTypes.STRING, 
-                allowNull: false 
+                allowNull: true 
             },
             Password: {
                 type: DataTypes.STRING, 
-                allowNull: false 
+                allowNull: true 
             },
             OrderIDList: {
-                type: DataTypes.ARRAY(DataTypes.STRING),
+                type: DataTypes.JSON,
                 allowNull: true
             }
         },
