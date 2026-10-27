@@ -2,7 +2,7 @@ import { DataTypes, Model} from "sequelize";
 import type { InferAttributes, InferCreationAttributes, CreationOptional, Sequelize } from "sequelize";
 
 
-export class Customer extends initCustomerModel<InferAttributes<Customer>, InferCreationAttributes<Customer>> {
+export class Customer extends Model<InferAttributes<Customer>, InferCreationAttributes<Customer>> {
     declare FirstName: string;
     declare LastName: string;
     declare DisplayName: string;
@@ -19,7 +19,7 @@ export default function initCustomerModel (
     sequelize: Sequelize
 ) {
     Customer.init(
-        "Customer", {
+        {
             CustomerID: {
                 type: DataTypes.UUIDV4,
                 primaryKey: true
