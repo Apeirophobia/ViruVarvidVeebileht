@@ -1,4 +1,4 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, UUIDV4 } from "sequelize";
 import type { CreationOptional, InferAttributes, InferCreationAttributes, Sequelize } from "sequelize";
 
 export class Contact extends Model<InferAttributes<Contact>, InferCreationAttributes<Contact>> {
@@ -13,7 +13,7 @@ export default function initContactModel(sequelize: Sequelize) {
         {
             ContactID: {
                 type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
+                defaultValue: UUIDV4,
                 primaryKey: true
             },
             Name: {
