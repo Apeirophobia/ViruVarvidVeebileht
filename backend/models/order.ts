@@ -5,7 +5,7 @@ import type { InferAttributes, InferCreationAttributes, CreationOptional, Sequel
 export class Order extends Model<InferAttributes<Order>, InferCreationAttributes<Order>> {
     declare OrderID: CreationOptional<string>;
     declare ServiceCategory: CreationOptional<string>;
-    declare Price: CreationOptional<INTEGER>;
+    declare Price: CreationOptional<number>;
     declare CustomerName: CreationOptional<string>;
     declare CustomerEmail: CreationOptional<string>;
     declare OrderedAt: CreationOptional<Date>;
