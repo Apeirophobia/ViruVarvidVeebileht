@@ -16,10 +16,11 @@ export default (app: express.Application): void => {
     app.route("/contacts")
         .get(ContactsController.getAll)
         .post(ContactsController.create)
+
     app.route("/contacts/:id")
-        .get(ContactsController.getById)
-        .put(ContactsController.updateById)
-        .delete(ContactsController.deleteById)
+        .get(ContactsController.getByID)
+        .put(ContactsController.modifyByID)
+        .delete(ContactsController.deleteByID)
     
     app.route("/orders/")
         .post(OrdersController.create)
