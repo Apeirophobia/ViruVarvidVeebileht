@@ -51,20 +51,16 @@ const ServicesController = {
     async getByID(req: express.Request, res: express.Response) {
         const serviceID: string = req.params.id as string;
         console.log(serviceID);
-        const service = await db.services.findByPk(serviceID);
+        const service = await ServicesController.getService(req, res);
     
-        if (!service || service === undefined) {
-            res.status(404).send(
-                {
-                    error: `Service with this ID is not found: ${serviceID}`
-                });
-            return null;
+        if (!service) {
+            return;
         }
         return res.status(200).send(service);
     },   
 
     async modifyByID(req: express.Request, res: express.Response) {
-        const serviceToBeModified = await this.getByID(req, res);
+        const serviceToBeModified = await ServicesController.getService(req, res);
         if (!serviceToBeModified) {
             return;
         }
@@ -91,7 +87,8 @@ const ServicesController = {
         .send(serviceToBeModified);
     },
     async deleteByID(req: express.Request, res: express.Response) {
-        const serviceToBeDeleted = await this.getByID(req, res);
+        const serviceToBeDeleted = await ServicesController.getService(req, res);
+        
         if (!serviceToBeDeleted) {
             return;
         }
@@ -99,7 +96,22 @@ const ServicesController = {
         await serviceToBeDeleted.destroy();
         return res.status(204)
         .send({error: "No content"});
-    }
+    },
+
+    async getService(req: express.Request, res: express.Response) {
+        let serviceID: string = req.params.id as string;
+        console.log(serviceID);
+        const service = await db.services.findByPk(serviceID);
+
+        if (!service) {
+            res.status(404).send({
+                error: `Service with this ID is not found: ${serviceID}`
+            });
+            return null;
+        }
+
+        return service;
+    } 
     
 }
 
