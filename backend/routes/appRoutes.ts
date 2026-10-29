@@ -1,6 +1,6 @@
 import ServicesController from "../controllers/ServicesController.ts";
 import ContactsController from "../controllers/ContactsController.ts";
-import OrdersController from "../controllers/OrdersController.ts"
+//import OrdersController from "../controllers/OrdersController.ts"
 import CustomersController from "../controllers/CustomersController.ts";
 import express from "express";
 
@@ -32,6 +32,7 @@ export default (app: express.Application): void => {
         .put(ContactsController.modifyByID)
         .delete(ContactsController.deleteByID)
     
-    app.route("/orders/")
+    /*app.route("/orders/")
         .post(OrdersController.create)
+    */
 }
