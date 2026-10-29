@@ -18,6 +18,7 @@ Open Terminal in Visual Studio Code
 Make sure that you are in the root directory: "...\ViruVarvidVeebileht"
 
 <h3> Backend setup </h3>
+in Command Prompt run: "cd backend"
 If you have "package-lock.json" then simply type "npm install"
 
 else:
@@ -41,6 +42,12 @@ In backend directory: "...\ViruVaravadVeebileht\backend"
 run: npm run dev
 
 to close server: CTRL + C in Terminal
+
+<h3>Testing CRUD</h3>
+in .../routes/appRoutes.js there is every route needed to test the CRUD functionality
+to test these routes, we recommend using Postman or Insomnia softwares,
+Notice! Create and Modify methods (put, post requests) require request body (type of Form URL Encoded) to function
+Incase parameters are missing, server will return an error.
 
 <h3>Production construction</h3>
 
