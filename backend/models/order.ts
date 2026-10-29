@@ -1,44 +1,64 @@
-import { Sequelize, DataTypes } from "sequelize";
+import { DataTypes, Model, UUIDV4 } from "sequelize";
+import type { InferAttributes, InferCreationAttributes, CreationOptional, Sequelize } from "sequelize";
 
-export default function OrderModel (
-    sequelize: Sequelize,
-    dataTypes: typeof DataTypes
+
+export class Order extends Model<InferAttributes<Order>, InferCreationAttributes<Order>> {
+    declare OrderID: CreationOptional<string>;
+    declare ServiceCategory: CreationOptional<string>;
+    declare Price: CreationOptional<number>;
+    declare CustomerName: CreationOptional<string>;
+    declare CustomerEmail: CreationOptional<string>;
+    declare OrderedAt: CreationOptional<Date>;
+    declare ServiceID: CreationOptional<string>;
+    declare CustomerID: CreationOptional<string>;
+}
+
+
+
+
+export default function initOrderModel (
+    sequelize: Sequelize
 ) {
-    const Order = sequelize.define(
-        "Order", {
+    Order.init(
+        {
             OrderID: {
-                type: dataTypes.UUIDV4,
+                type: DataTypes.UUID,
+                defaultValue: UUIDV4,
                 primaryKey: true
             },
             ServiceCategory: {
-                type: dataTypes.STRING,
-                allowNull: false
+                type: DataTypes.STRING,
+                allowNull: true
             },
             Price: {
-                type: dataTypes.INTEGER,
-                allowNull: false
+                type: DataTypes.INTEGER,
+                allowNull: true
             },
             CustomerName: {
-                type: dataTypes.STRING,
-                allowNull: false
+                type: DataTypes.STRING,
+                allowNull: true
             },
             CustomerEmail: {
-                type: dataTypes.STRING,
-                allowNull: false
+                type: DataTypes.STRING,
+                allowNull: true
             },
             OrderedAt: {
-                type: dataTypes.DATE,
-                allowNull: false
+                type: DataTypes.DATE,
+                allowNull: true
             },
             //võõrvõtmed
             ServiceID: {
-                type: dataTypes.UUID,
-                allowNull: false
+                type: DataTypes.UUID,
+                allowNull: true
             },
             CustomerID: {
-                type: dataTypes.UUID,
-                allowNull: false
+                type: DataTypes.UUID,
+                allowNull: true
             }
+        },
+        {
+            sequelize,
+            modelName: "Order"
         }
     )
     console.log(Order === sequelize.models.Order);

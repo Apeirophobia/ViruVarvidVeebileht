@@ -1,39 +1,58 @@
-import { Sequelize, DataTypes } from "sequelize";
+import { DataTypes, Model, UUIDV4} from "sequelize";
+import type { InferAttributes, InferCreationAttributes, CreationOptional, Sequelize } from "sequelize";
 
-export default function CustomerModel (
-    sequelize: Sequelize,
-    dataTypes: typeof DataTypes
+
+export class Customer extends Model<InferAttributes<Customer>, InferCreationAttributes<Customer>> {
+    declare FirstName: string;
+    declare LastName: string;
+    declare DisplayName: string;
+    declare Email: string;
+    declare Password: string;
+
+    declare CustomerID: CreationOptional<string>;
+    declare OrderIDList: CreationOptional<JSON | null>;
+    
+}
+
+
+export default function initCustomerModel (
+    sequelize: Sequelize
 ) {
-    const Customer = sequelize.define(
-        "Customer", {
+    Customer.init(
+        {
             CustomerID: {
-                type: dataTypes.UUIDV4,
+                type: DataTypes.UUID,
+                defaultValue: UUIDV4,
                 primaryKey: true
             },
             FirstName: {
-                type: dataTypes.STRING, 
-                allowNull: false 
+                type: DataTypes.STRING, 
+                allowNull: true 
             },
             LastName: {
-                type: dataTypes.STRING, 
-                allowNull: false 
+                type: DataTypes.STRING, 
+                allowNull: true 
             },
             DisplayName: {
-                type: dataTypes.STRING, 
-                allowNull: false 
+                type: DataTypes.STRING, 
+                allowNull: true 
             },
             Email: {
-                type: dataTypes.STRING, 
-                allowNull: false 
+                type: DataTypes.STRING, 
+                allowNull: true 
             },
             Password: {
-                type: dataTypes.STRING, 
-                allowNull: false 
+                type: DataTypes.STRING, 
+                allowNull: true 
             },
-            OrderListID: {
-                type: dataTypes.ARRAY(dataTypes.STRING),
+            OrderIDList: {
+                type: DataTypes.JSON,
                 allowNull: true
             }
+        },
+        {
+            sequelize,
+            modelName: "Customer"
         }
     )
 

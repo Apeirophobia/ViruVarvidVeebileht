@@ -1,11 +1,14 @@
-import type { Request, Response } from "express";
+import * as express from "express";
 import { db } from "../db.ts"
 import Utilities from "./Utilities.ts";
 import { v7 as uuidv7 } from "uuid";
+import type { Identifier } from "sequelize";
+import type { Service } from "../models/service.ts";
 
 const ServicesController = {
 
-    async create (req: Request, res: Response) {
+    async create (req: express.Request, res: express.Response) {
+        console.log(req.body);
         if (    
             !req.body.ServiceName ||
             !req.body.Price ||
@@ -22,7 +25,7 @@ const ServicesController = {
             ServiceName: req.body.ServiceName,
             Description: req.body.Description,
             Price: req.body.Price,
-            Category: req.body.price,
+            Category: req.body.Category,
         }
 
         const createdService = await db.services.create(newService);
@@ -31,7 +34,7 @@ const ServicesController = {
 
     },
 
-    async getAll(req: Request, res: Response) {
+    async getAll(req: express.Request, res: express.Response) {
         const services = await db.services.findAll();
         console.log("getAll: ", services);
         return res
@@ -45,23 +48,19 @@ const ServicesController = {
         )
     },
 
-    async getByID(req: Request, res: Response) {
-        const serviceID: String = req.params.id as String;
-        
-        const service = await db.services.findByPk(serviceID);
+    async getByID(req: express.Request, res: express.Response) {
+        const serviceID: string = req.params.id as string;
+        console.log(serviceID);
+        const service = await ServicesController.getService(req, res);
     
-        if (!service || service === undefined) {
-            res.status(404).send(
-                {
-                    error: `Service with this ID is not found: ${serviceID}`
-                });
-            return null;
+        if (!service) {
+            return;
         }
-        return service;
+        return res.status(200).send(service);
     },   
 
-    async modifyByID(req: Request, res: Response) {
-        const serviceToBeModified = await this.getByID(req, res);
+    async modifyByID(req: express.Request, res: express.Response) {
+        const serviceToBeModified = await ServicesController.getService(req, res);
         if (!serviceToBeModified) {
             return;
         }
@@ -87,8 +86,9 @@ const ServicesController = {
         .status(201)
         .send(serviceToBeModified);
     },
-    async deleteByID(req: Request, res: Response) {
-        const serviceToBeDeleted = await this.getByID(req, res);
+    async deleteByID(req: express.Request, res: express.Response) {
+        const serviceToBeDeleted = await ServicesController.getService(req, res);
+        
         if (!serviceToBeDeleted) {
             return;
         }
@@ -96,7 +96,22 @@ const ServicesController = {
         await serviceToBeDeleted.destroy();
         return res.status(204)
         .send({error: "No content"});
-    }
+    },
+
+    async getService(req: express.Request, res: express.Response) {
+        let serviceID: string = req.params.id as string;
+        console.log(serviceID);
+        const service = await db.services.findByPk(serviceID);
+
+        if (!service) {
+            res.status(404).send({
+                error: `Service with this ID is not found: ${serviceID}`
+            });
+            return null;
+        }
+
+        return service;
+    } 
     
 }
 

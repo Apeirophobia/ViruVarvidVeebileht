@@ -30,10 +30,10 @@ const connect = async (): Promise<void> => {
     }
 }
 //andmebaasi instants ja seostused
-const _Service = ServiceModel(sequelize, DataTypes);
-const _Customer = CustomerModel(sequelize, DataTypes); 
-const _Contacts = ContactsModel(sequelize, DataTypes); 
-const _Order = OrderModel(sequelize, DataTypes);
+const _Service = ServiceModel(sequelize);
+const _Customer = CustomerModel(sequelize); 
+const _Contacts = ContactsModel(sequelize); 
+const _Order = OrderModel(sequelize);
 
 _Customer.hasMany(_Order, {foreignKey: "CustomerID" as "Order"});
 _Order.belongsTo(_Customer, {foreignKey: "CustomerID" as "Customer"})
