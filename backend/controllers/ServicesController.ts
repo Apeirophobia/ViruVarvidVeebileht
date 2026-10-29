@@ -16,7 +16,7 @@ const ServicesController = {
             !req.body.Description
         ) {
             return res.status(400).send({
-                error: "Missing parameters, please review data"
+                error: "Missing parameters (ServiceName, Price, Category, Description), please review data"
             })
         }   
 
