@@ -33,6 +33,7 @@ export default (app: express.Application): void => {
         .put(checkRequestBody, ContactsController.modifyByID)
         .delete(ContactsController.deleteByID)
     
-    app.route("/orders/")
+    /*app.route("/orders/")
         .post(checkRequestBody, OrdersController.create)
+    */
 }
