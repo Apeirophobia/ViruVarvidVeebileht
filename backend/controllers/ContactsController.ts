@@ -12,7 +12,7 @@ const ContactsController = {
             !req.body.PhoneNumber
         ) {
             return res.status(400).send({
-                error: "Missing parameters, please review data"
+                error: "Missing parameters (Name, Email, PhoneNumber), please review data"
             });
         }
 

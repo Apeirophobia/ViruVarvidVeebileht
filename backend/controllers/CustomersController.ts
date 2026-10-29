@@ -19,7 +19,7 @@ const CustomersController = {
              !req.body.PasswordConfirmation
          ) {
              return res.status(400).send({
-                 error: "Missing parameters, please review data"
+                 error: "Missing parameters (FirstName, LastName, DisplayName, Email, Password, PasswordConfirmation), please review data"
              })
          }  
         if (req.body.Password != req.body.PasswordConfirmation) 
