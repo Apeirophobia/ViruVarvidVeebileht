@@ -9,16 +9,22 @@ const ServicesController = {
 
     async create (req: express.Request, res: express.Response) {
         console.log(req.body);
+
+        const requiredFields = ["ServiceName", "Price", "Category", "Description"];
+        const missingFields = requiredFields.filter(field => !req.body[field]);
+
         if (    
-            !req.body.ServiceName ||
-            !req.body.Price ||
-            !req.body.Category ||
-            !req.body.Description
+            missingFields.length > 0
         ) {
             return res.status(400).send({
-                error: "Missing parameters (ServiceName, Price, Category, Description), please review data"
-            })
+                error: "Missing parameters, please review data",
+                missingData: missingFields,
+            });
         }   
+
+        if (req.body.Price <= 0) {
+            return res.status(400).send({error: "Price should be higher than 0"});
+        }
 
         const newService = {
             ServiceID: uuidv7(),
