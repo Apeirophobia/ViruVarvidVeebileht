@@ -27,9 +27,15 @@ If (DEV) then: npm install 'package_name' -D
 <ul>
     <li>express</li>
     <li>dotenv</li>
+    <li>sequelize</li>
+    <li>mariadb</li>
+    <li>ors</li>
+    <li>cors</li>
+    <li>uuid</li>
+    <li>bcrypt</li>
+    <!-- Dev Dependencies -->
     <li>ejs(DEV)</li>
     <li>nodemon (DEV)</li>
-    <li>sequelize</li>
     <li>typescript (DEV)</li>
     <li>ts-node (DEV)</li>
 </ul>
