@@ -22,7 +22,7 @@ export default (app: express.Application): void => {
     app.route("/customers/:id")
     .get(CustomersController.getByID)
     .delete(CustomersController.deleteByID)
-    // .put(CustomersController.modifyByID)
+    .put(CustomersController.modifyByID)
 
     app.route("/contacts")
         .get(ContactsController.getAll)
