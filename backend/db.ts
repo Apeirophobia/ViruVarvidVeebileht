@@ -7,13 +7,23 @@ import OrderModel from "../backend/models/order.ts";
 import ContactsModel from "../backend/models/contacts.ts";
 
 //sequelizei andmebaasi ühendusanddmed
+import dns from 'node:dns';
+dns.setDefaultResultOrder('ipv4first');
+
 const sequelize = new Sequelize(
     process.env.DB_NAME!,
     process.env.DB_USERNAME!,
     process.env.DB_PASSWORD!,
     {
         host: process.env.DB_HOSTNAME!,
+        port: Number(process.env.DB_PORT) || 3306,
         dialect: "mariadb",
+        dialectOptions: {
+            connectTimeout: 15000,
+        },
+        pool: {
+            acquire: 30000,
+        },
         logging: console.log,
     }
 );
