@@ -63,6 +63,35 @@ const CustomersController = {
         const customers = await db.customers.findAll();
         return res.status(200).send(customers);
     },
+
+    async modifyByID(req: express.Request, res: express.Response) {
+        const customerToBeModified = await CustomersController.getCustomer(req, res);
+        if (!customerToBeModified) {
+            return;
+        }
+        if (    
+            !req.body.FirstName ||
+             !req.body.LastName ||
+             !req.body.DisplayName ||
+             !req.body.Email
+            
+        ) {
+            return res.status(400).send({
+                error: "Missing parameters, please review data"
+            })
+        }   
+
+        customerToBeModified.FirstName = req.body.FirstName;
+        customerToBeModified.LastName = req.body.LastName;
+        customerToBeModified.DisplayName = req.body.DisplayName;
+        customerToBeModified.Email = req.body.Email;
+
+        await customerToBeModified.save();
+        return res
+        .location(`${Utilities.getBaseURL(req)}/customers/${customerToBeModified.CustomerID}`)
+        .status(201)
+        .send(customerToBeModified);
+    },
     
     async deleteByID(req: express.Request, res: express.Response) {
         const customerToBeDeleted = await CustomersController.getCustomer(req, res);
