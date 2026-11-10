@@ -1,9 +1,9 @@
 import * as express from "express";
-import { db } from "../src/db.ts"
+import { db } from "../db.ts"
 import Utilities from "./Utilities.ts";
 import { v7 as uuidv7 } from "uuid";
 import type { Identifier } from "sequelize";
-import type { Customer } from "../src/models/customer.js";
+import type { Customer } from "../models/customer.js";
 
 
 const CustomersController = {
