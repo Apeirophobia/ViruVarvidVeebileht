@@ -1,10 +1,10 @@
 import {Sequelize, DataTypes} from 'sequelize';
 
 //modelite pathid
-import ServiceModel from "../backend/models/service.ts";
-import CustomerModel from "../backend/models/customer.ts";
-import OrderModel from "../backend/models/order.ts";
-import ContactsModel from "../backend/models/contacts.ts";
+import ServiceModel from "./models/service.ts";
+import CustomerModel from "./models/customer.ts";
+import OrderModel from "./models/order.ts";
+import ContactsModel from "./models/contacts.ts";
 
 //sequelizei andmebaasi ühendusanddmed
 import dns from 'node:dns';

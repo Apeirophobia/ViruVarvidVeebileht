@@ -2,7 +2,7 @@ import "dotenv/config";
 import express, { urlencoded } from "express";
 // import dotenv from "dotenv";
 import cors from "cors";
-import { sync } from "../db.ts";
+import { sync } from "./db.ts";
 import appRoutes from "../routes/appRoutes.ts";
 
 // dotenv.config();
