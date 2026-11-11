@@ -1,0 +1,40 @@
+{
+    "openapi":"3.0.3",
+    "info": {
+        "title":"Games API",
+        "version":"1.0.0",
+        "description": "Hajusrakenduste näidisprojekt"
+    },
+    "paths": {
+        "/Contacts": {
+            "get": {
+                "summary":"Päri loetelu kontaktidest",
+                "responses":{
+                    "200": {
+                        "description":"Õnnestunud päring",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "CustomerID" : {
+                                                "type":"string",
+                                                "example":"01a17d4e-7bb5-7615-a365-53ec75a71736"
+                                            },
+                                            "Name" : {
+                                                "type":"string",
+                                                "example":"Lehm"
+                                            }
+                                        }                                        
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
