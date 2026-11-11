@@ -3,6 +3,7 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": true,
     "forceConsistentCasingInFileNames": true,
     // File Layout
     "rootDir": "../backend",
