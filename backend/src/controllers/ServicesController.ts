@@ -35,8 +35,11 @@ const ServicesController = {
         }
 
         const createdService = await db.services.create(newService);
+        //console.log("Created Service: ", createdService.ServiceID);
+        const newId = createdService.ServiceID 
+
         return res
-        .location(`${Utilities.getBaseURL(req)}/games/${createdService.ServiceID}`).sendStatus(201);
+        .location(`${Utilities.getBaseURL(req)}/services/${createdService.ServiceID}`).sendStatus(201);
 
     },
 
