@@ -22,5 +22,28 @@ export const servicesServices = {
     },
     getbyId(id: string): Promise<Service> {
         return request<Service>(`/services/${id}`)
+    },
+    create(service: ServiceInput): Promise<void> {
+        return request<void>('/services', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(service)
+        })
+    },
+    update (id: string, service: ServiceInput): Promise<void> {
+        return request<void>(`/services/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(service)
+        })
+    },
+    delete (id: string): Promise<void> {
+        return request<void>(`/services/${id}`, {
+            method: 'DELETE'
+        })
     }
 }
