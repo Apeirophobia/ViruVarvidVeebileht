@@ -6,6 +6,7 @@ import { v7 as uuidv7 } from "uuid";
 const ContactsController = {
 
     async create(req: express.Request, res: express.Response) {
+        // # swagger.tags = ['Contacts']
         if (
             !req.body.Name ||
             !req.body.Email ||
@@ -30,6 +31,7 @@ const ContactsController = {
     },
 
     async getAll(req: express.Request, res: express.Response) {
+        // # swagger.tags = ['Contacts']
         const contacts = await db.contacts.findAll();
         return res.status(200).send(
             contacts.map(({ ContactID, Name }) => ({ ContactID, Name }))
@@ -37,6 +39,7 @@ const ContactsController = {
     },
 
     async getByID(req: express.Request, res: express.Response) {
+        // # swagger.tags = ['Contacts']
         const contact = await ContactsController.getContact(req, res);
         if (!contact) {
             return;
@@ -45,6 +48,7 @@ const ContactsController = {
     },
 
     async modifyByID(req: express.Request, res: express.Response) {
+        // # swagger.tags = ['Contacts']
         const contactToBeModified = await ContactsController.getContact(req, res);
         if (!contactToBeModified) {
             return;
@@ -83,6 +87,7 @@ const ContactsController = {
     },
 
     async deleteByID(req: express.Request, res: express.Response) {
+        // # swagger.tags = ['Contacts']
         const contactToBeDeleted = await ContactsController.getContact(req, res);
         if (!contactToBeDeleted) {
             return;

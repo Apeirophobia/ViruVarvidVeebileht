@@ -6,33 +6,38 @@
         "description": "Hajusrakenduste näidisprojekt"
     },
     "paths": {
-        "/Contacts": {
+        "/Contacts": 
+            {
+            "summary": "To access contacts from database",
+            "description": "GET - Returns list of all contacts\nPOST - Creates a new contact",
             "get": {
-                "summary":"Päri loetelu kontaktidest",
-                "responses":{
-                    "200": {
-                        "description":"Õnnestunud päring",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "CustomerID" : {
-                                                "type":"string",
-                                                "example":"01a17d4e-7bb5-7615-a365-53ec75a71736"
-                                            },
-                                            "Name" : {
-                                                "type":"string",
-                                                "example":"Lehm"
-                                            }
-                                        }                                        
-                                    }
-                                }
-                            }
-                        }
+                "summary": "Returns list of all contacts",
+                "responses": {
+                "200": {
+                    "description": "OK",
+                    "content": {
+                    "application/json": {}
                     }
+                }
+                }
+            },
+            "post": {
+                "summary": "Adds a contact to database based on request body",
+                "requestBody": {
+                "description": "Request body must contain all required parameters:\nName,\nEmail,\nDescription,\nPhoneNumber",
+                "content": {
+                    "application/json": {
+                    "schema": {
+                        "type": "object"
+                    }
+                    }
+                },
+                "required": true
+                },
+                "responses": {
+                "201": {
+                    "description": "Created"
+                }
                 }
             }
         }
