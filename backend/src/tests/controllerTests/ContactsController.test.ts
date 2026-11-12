@@ -107,8 +107,36 @@ describe("ContactsController", () => {
 
         // Siia tuleb eesti keelne kokkuv6tte 
 
-
     })
 
+    test("Return_CreatedContact_With201Status", async () => {
+        const id = "0386cf61-3b95-4e2c-b7d8-662b3b9ba338"; // UUID
+
+        mocks.create.mockResolvedValue({ ContactID: id}); // Kirjeldame, mis tulemust peab create() tagastama
+
+        const req = {
+            protocol: "http",
+            get: vi.fn(() => "localhost:8080"),
+            body: {
+                Name: "vi-contact-test4",
+                Description: "lehm",
+                Email: "internetemittingcow@gmail.com",
+                PhoneNumber: "+372 76 79481"
+            }
+        } as unknown as Request
+
+        const res = {
+            location: vi.fn().mockReturnThis(),
+            sendStatus: vi.fn().mockReturnThis()
+        } as unknown as Response
+
+
+        // action
+        await _ContactsController.create(req, res);
+
+        expect(mocks.create).toHaveBeenCalledOnce();
+        expect(res.location).toHaveBeenCalledWith(`http://localhost:8080/contacts/${id}`);
+        expect(res.sendStatus).toHaveBeenCalledWith(201);
+    });
     
 })
