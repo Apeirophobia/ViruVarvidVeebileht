@@ -72,7 +72,43 @@ describe("ContactsController", () => {
         // Siia tuleb eesti keelne kokkuv6tte
     })
 
-    
+        test("Return_OneContactById_With200Status", async() => {
+        const contact = // loome mock tabeli
+        {
+            ContactID: "01a18e66-5fdb-73f6-9f36-fec1238c7d30",
+            Name:"vi-contacts-test1",
+            Email: "cow@gmail.com",
+            PhoneNumber: "+123 2222 4444",
+        }
+
+        const req = {
+            params: { // Päringu parameetrid 
+                id: contact.ContactID 
+            }
+        } as unknown as Request // Loome päringu
+
+        const res = {
+            // käsime vi (virutaliseerijale) jäligda järgmiseid parameetre
+            status: vi.fn().mockReturnThis(), // res muutumisel jälgib mock status atribuuti
+            send: vi.fn().mockReturnThis() // res muutumisel jälgib mock send atribuuti
+        } as unknown as Response // loome vastuse
+
+        // mockResolvedValueOnce kirjeldab, mis tulemust peab findByPk() tagastama (enne loodud mock tabeli)
+        mocks.findByPk.mockResolvedValue(contact);
+
+        // action
+        await _ContactsController.getByID(req, res); // kutsume välja konrtolleri enne loodud päringu ja vastusega
+        
+        // checks
+        expect(mocks.findByPk).toHaveBeenCalledExactlyOnceWith(contact.ContactID); // Kontrollib: kas db.tabeli_nimi.findAll() oli kutsutud välja AINULT ÜKS kord 
+        // ja parameertriga contact.ContactID!
+        expect(res.status).toHaveBeenCalledWith(200); // Kontrollib: kas vastuse staatus on 200, (kontrolleris vastuse muutmisel jälgis mock neid andmeid)
+        expect(res.send).toHaveBeenCalledWith(contact); // Kontrollib: kas vastuse "saadetis" on antud objekt (kontrolleris vastuse muutmisel jälgis mock neid andmeid)
+
+        // Siia tuleb eesti keelne kokkuv6tte 
+
+
+    })
 
     
 })
