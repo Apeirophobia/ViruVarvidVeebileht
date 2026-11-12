@@ -1,0 +1,26 @@
+{
+  "name": "viruvarvidveebileht",
+  "version": "1.0.0",
+  "description": "<h1>ViruVarvidVeebileht</h1>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "devstart": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Apeirophobia/ViruVarvidVeebileht.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Apeirophobia/ViruVarvidVeebileht/issues"
+  },
+  "homepage": "https://github.com/Apeirophobia/ViruVarvidVeebileht#readme",
+  "dependencies": {
+    "concurrently": "^10.0.7",
+    "nodemon": "^3.1.14"
+  }
+}
