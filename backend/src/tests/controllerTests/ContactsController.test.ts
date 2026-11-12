@@ -138,5 +138,66 @@ describe("ContactsController", () => {
         expect(res.location).toHaveBeenCalledWith(`http://localhost:8080/contacts/${id}`);
         expect(res.sendStatus).toHaveBeenCalledWith(201);
     });
+
+    test("Return_ModifiedByID_With201Status", async () => {
+        
+        mocks.findByPk.mockResolvedValue({ ContactID: "01a18e66-5fdb-73f6-9f36-fec1238c7d30"})
+        
+        const contact = // loome mock tabeli
+        {
+            ContactID: "01a18e66-5fdb-73f6-9f36-fec1238c7d30",
+            Name:"vi-contacts-test1",
+            Email: "cow@gmail.com",
+            Description: "Hobune",
+            PhoneNumber: "+123 2222 4444",
+        }
+
+        mocks.update.mockResolvedValue([1]);
+        
+        const req = {
+            protocol: "http",
+            get: vi.fn(() => "localhost:8080"),
+            params: {
+                id: "01a18e66-5fdb-73f6-9f36-fec1238c7d30"
+            },
+            body: {
+                Name: "Interneti Kiirgav Lehm",
+                Description: "lehm",
+                Email: "internetemittingcow@gmail.com",
+                PhoneNumber: "+372 76 79481"
+            }
+        } as unknown as Request;
+
+        const res = {
+            location: vi.fn().mockReturnThis(),
+            status: vi.fn().mockReturnThis(),
+            send: vi.fn().mockReturnThis()
+        } as unknown as Response
+
+        // action
+        const result = await _ContactsController.modifyByID(req, res) as unknown as Contact
+
+        // checks
+        expect(mocks.findByPk).toHaveBeenCalledWith(contact.ContactID);
+        expect(mocks.update).toHaveBeenCalledOnce();
+
+        const updatedContact = mocks.update.mock.calls[0][0];
+
+        console.log("updatedContact: ", updatedContact);
+
+        expect(updatedContact.Name).toBe(req.body.Name);
+        expect(updatedContact.Email).toBe(req.body.Email);
+        expect(updatedContact.Description).toBe(req.body.Description);
+        expect(updatedContact.PhoneNumber).toBe(req.body.PhoneNumber);
+
+        expect(mocks.update.mock.calls[0][1]).toEqual({
+            where: {
+                ContactID: contact.ContactID
+            }
+        })
+        expect(res.status).toHaveBeenCalledWith(201);
+    
+    })
+
     
 })
