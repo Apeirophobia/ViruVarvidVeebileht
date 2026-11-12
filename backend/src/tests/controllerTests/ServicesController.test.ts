@@ -29,7 +29,7 @@ import type { Service } from "../../models/service.ts";
 
 describe("ServicesController", () => {
     beforeEach(() => {
-        vi.clearAllMocks
+        vi.clearAllMocks();
     })
 
     test("Return_AllServices_With200Status", async () =>{
