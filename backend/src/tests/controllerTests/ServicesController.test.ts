@@ -99,7 +99,7 @@ describe("ServicesController", () => {
     test("Created_Service_With201Status", async () => {
 
         mocks.create.mockResolvedValue({
-            id: "01a1ca2e-ecd4-73ed-a4c8-3b907ed349e8"
+            ServiceID: "01a1ca2e-ecd4-73ed-a4c8-3b907ed349e8"
         });
         const id = "01a1ca2e-ecd4-73ed-a4c8-3b907ed349e8"
 
@@ -135,11 +135,11 @@ describe("ServicesController", () => {
     })
 
     test("Return_ModifiedGameById_With201Status", async() => {
-        mocks.FindByPk.mockResolvedValue({ id: "01a18e66-5fdb-73f6-9f36-fec1238c7d30"});
+        mocks.FindByPk.mockResolvedValue({ ServiceID: "01a18e66-5fdb-73f6-9f36-fec1238c7d30"});
 
         const service = 
         {
-            id: "01a18e66-5fdb-73f6-9f36-fec1238c7d30",
+            ServiceID: "01a18e66-5fdb-73f6-9f36-fec1238c7d30",
             ServiceName: "Lehm",
             Price: 100,
             Category: "Loomad",
@@ -153,7 +153,7 @@ describe("ServicesController", () => {
         const destroy = vi.fn();
         const thisid = "01a18e66-5fdb-73f6-9f36-fec1238c7d30" 
         mocks.FindByPk.mockResolvedValue({ 
-            id: thisid
+            ServiceID: thisid
         });
 
         const req = {
