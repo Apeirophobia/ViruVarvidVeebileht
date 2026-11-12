@@ -53,21 +53,32 @@ const ContactsController = {
         if (
             !req.body.Name ||
             !req.body.Email ||
-            !req.body.PhoneNumber
+            !req.body.PhoneNumber ||
+            !req.body.Description
         ) {
             return res.status(400).send({
                 error: "Missing parameters, please review data"
             });
         }
 
+        /*
         contactToBeModified.Name = req.body.Name;
         contactToBeModified.Email = req.body.Email;
         contactToBeModified.PhoneNumber = req.body.PhoneNumber;
+        */
 
-        await contactToBeModified.save();
+        const modifiedContact = {
+            Name: req.body.Name,
+            Email: req.body.Email,
+            Description: req.body.Description,
+            PhoneNumber: req.body.PhoneNumber
+        }
+
+        await db.contacts.update(modifiedContact, { where: {ContactID: req.params.id}});
+        
         return res
             .location(`${Utilities.getBaseURL(req)}/contacts/${contactToBeModified.ContactID}`)
-            .status(200)
+            .status(201)
             .send(contactToBeModified);
     },
 
