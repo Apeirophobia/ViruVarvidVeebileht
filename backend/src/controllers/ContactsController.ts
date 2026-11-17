@@ -83,7 +83,7 @@ const ContactsController = {
         return res
             .location(`${Utilities.getBaseURL(req)}/contacts/${contactToBeModified.ContactID}`)
             .status(201)
-            .send(contactToBeModified);
+            .send(modifiedContact);
     },
 
     async deleteByID(req: express.Request, res: express.Response) {
