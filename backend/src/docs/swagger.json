@@ -6,40 +6,310 @@
         "description": "Hajusrakenduste näidisprojekt"
     },
     "paths": {
-        "/Contacts": 
-            {
+        "/contacts": {
             "summary": "To access contacts from database",
             "description": "GET - Returns list of all contacts\nPOST - Creates a new contact",
             "get": {
                 "summary": "Returns list of all contacts",
                 "responses": {
-                "200": {
-                    "description": "OK",
-                    "content": {
-                    "application/json": {}
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContactGet_Response"
+                                }
+                            }
+                        }
                     }
-                }
                 }
             },
             "post": {
                 "summary": "Adds a contact to database based on request body",
                 "requestBody": {
-                "description": "Request body must contain all required parameters:\nName,\nEmail,\nDescription,\nPhoneNumber",
-                "content": {
-                    "application/json": {
-                    "schema": {
-                        "type": "object"
-                    }
-                    }
-                },
-                "required": true
+                    "description": "Request body must contain all required parameters:\nName,\nEmail,\nDescription,\nPhoneNumber",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ContactPost_Body"
+                            }
+                        }
+                    },
+                    "required": true
                 },
                 "responses": {
-                "201": {
-                    "description": "Created"
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Parameters missing",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ParameterMissing_Response"
+                                }
+                            }
+                        }
+                    }
                 }
+            }
+        },
+
+        "/contacts/{id}": {
+
+            "summary": "Used to get, modify and delete contact by its' ContactID",
+            "description": "GET - GetByID\nPUT - ModifyByID\nDELETE - DeleteByID",
+            "get": {
+                "summary": "GetByID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of pet to return",
+                        "required": true,
+                        "schema": {
+                            "format": "uuidv",
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContactGetByID_Response"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFound_Response"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "ModifyByID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of pet to return",
+                        "required": true,
+                        "schema": {
+                            "format": "uuidv",
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Fill every data field",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ContactModifyByID_Body"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ContactModifyByID_Response"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Parameters missing",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ParameterMissing_Response"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFound_Response"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "DeleteByID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of pet to return",
+                        "required": true,
+                        "schema": {
+                            "format": "uuidv",
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFound_Response"
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
+    },
+    "components": {
+        "schemas": {
+            "ContactGet_Response": {
+                "type": "object",
+                "properties": {
+                    "ContactID": {
+                        "format": "uuidv7",
+                        "type": "string",
+                        "example": "01a1e859-fe60-72ea-8345-553910c64abe"
+                    },
+                    "Name": {
+                        "type": "string",
+                        "example": "interenetemittingcow"
+                    }
+                }
+            },
+            "ContactPost_Body": {
+                "type": "object",
+                "properties": {
+                    "Name": {
+                        "type": "string",
+                        "example": "internetemittingcow"
+                    },
+                    "Email": {
+                        "type": "string",
+                        "example": "internetemittingcow@gmail.com"
+                    },
+                    "PhoneNumber": {
+                        "type": "string",
+                        "example": "+372 5626 0306"
+                    }
+                }
+            },
+            "ContactGetByID_Response": {
+                "type": "object",
+                "properties": {
+                    "ContactID": {
+                        "format": "uuidv7",
+                        "type": "string",
+                        "example": "01a1e859-fe60-72ea-8345-553910c64abe"
+                    },
+                    "Name": {
+                        "type": "string",
+                        "example": "internetemittingcow"
+                    },
+                    "Email": {
+                        "type": "string",
+                        "example": "internetemittingcow@gmail.com"
+                    },
+                    "PhoneNumber": {
+                        "type": "string",
+                        "example": "+372 5626 0306"
+                    }
+                }
+            },
+            "ContactModifyByID_Body": {
+                "type": "object",
+                "properties": {
+                    "Name": {
+                        "type": "string",
+                        "example": "Rabbit"
+                    },
+                    "Email": {
+                        "type": "string",
+                        "example": "bigfatrabbit@gmail.com"
+                    },
+                    "PhoneNumber": {
+                        "type": "string",
+                        "example": "+372 5626 0306"
+                    },
+                    "Description": {
+                        "type": "string",
+                        "example": "Carrot eater"
+                    }
+                }
+            },
+            "ContactModifyByID_Response": {
+                "type": "object",
+                "properties": {
+                    "ContactID": {
+                        "format": "uuidv7",
+                        "type": "string",
+                        "example": "01a1e859-fe60-72ea-8345-553910c64abe"
+                    },
+                    "Name": {
+                        "type": "string",
+                        "example": "Rabbit" 
+                    },
+                    "Email": {
+                        "type": "string",
+                        "example": "bigfatrabbit@gmail.com"
+                    },
+                    "PhoneNumber": {
+                        "type": "string",
+                        "example": "+372 5626 0306"
+                    },
+                    "Description": {
+                        "type": "string",
+                        "example": "Carrot eater"
+                    }
+                }
+            },
+            "ParameterMissing_Response": {
+                "type": "object",
+                "properties": {
+                    "error": {
+                        "type": "string",
+                        "example": "Missing parameters (Name, Email, PhoneNumber), please review data"
+                    }
+                }
+            },
+            "NotFound_Response": {
+                "type": "object",
+                "properties": {
+                    "error": {
+                        "type": "string",
+                        "example": "Contact with this ID is not found: 01a1e859-fe60-72ea-8345-553910c64abe"
+                    }
+                }
+            }
+
+        }
     }
 }
+
+
+
+
