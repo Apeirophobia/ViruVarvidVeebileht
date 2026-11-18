@@ -1,4 +1,4 @@
-import type { Service, ServiceInput, ServiceSummary } from '../types/Service'
+import type { Service, ServiceInput, ServiceSummary } from '../types/ServiceSummary'
 const API_URL = import.meta.env.VITE_BACKEND_URL
 
 async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {

@@ -1,20 +1,69 @@
 <script setup lang="ts">
-import ServicesDetails from './components/ServicesDetails.vue';
+import { ref } from 'vue'
+import ServicesDetails from './components/ServicesDetails.vue'
 import ServicesList from './components/ServicesList.vue'
+import ServiceForm from './components/ServiceForm.vue'
+import { servicesServices } from './services/servicesServices'
 
 const selectedServiceId = ref<string | null>(null)
+const editing = ref(false)
+const listVersion = ref(0)
+const detailsVersion = ref(0)
+const error = ref('')
+
+function selectService(id: string) {
+  selectedServiceId.value = id
+  editing.value = false
+}
+
+function createService() {
+  selectedServiceId.value = null
+  editing.value = true
+}
+
+function serviceSaved() {
+  editing.value = false
+  listVersion.value++
+  detailsVersion.value++
+}
+
+async function deleteService() {
+  if (!selectedServiceId.value || !confirm('Delete this service?')) return
+
+  error.value = ''
+
+  try {
+    await servicesServices.delete(selectedServiceId.value)
+    selectedServiceId.value = null
+    editing.value = false
+    listVersion.value++
+  } catch (err) {
+    error.value = 'Cannot delete this service'
+    console.error(err)
+  }
+}
 </script>
 
-
 <template>
-  <h1>You did it!</h1>
-  <p>
-    <ServicesList />
-    <ServicesDetails v-if="selectedServiceId" :serviceId="selectedServiceId" />
-    <hr />
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
-</template>
+  <main>
+    <h1>Services</h1>
+    <button @click="createService">Add service</button>
+    <p v-if="error">{{ error }}</p>
 
-<style scoped></style>
+    <ServicesList :key="listVersion" @select="selectService" />
+
+    <section v-if="selectedServiceId && !editing">
+      <ServicesDetails
+        :key="`${selectedServiceId}-${detailsVersion}`"
+        :service-id="selectedServiceId"
+      />
+      <button @click="editing = true">Edit</button>
+      <button @click="deleteService">Delete</button>
+    </section>
+
+    <section v-if="editing">
+      <button @click="editing = false">Cancel</button>
+      <ServiceForm :service-id="selectedServiceId" @saved="serviceSaved" />
+    </section>
+  </main>
+</template>

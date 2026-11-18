@@ -1,12 +1,12 @@
 //getall
 export interface ServiceSummary {
-  id: string
-  name: string
+  ServiceID: string
+  ServiceName: string
 }
 
 //getbyid/modifybyid
 export interface Service {
-    ServiceId: string,
+    ServiceID: string,
     ServiceName: string,
     Price: number,
     Category: string,

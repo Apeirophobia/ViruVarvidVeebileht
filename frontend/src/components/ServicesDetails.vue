@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { servicesServices } from '../services/servicesServices'
-import type { ServiceSummary } from '../types/ServiceSummary'
+import type { Service } from '../types/ServiceSummary'
 
 const props = defineProps<{
     serviceId: string
 }>()
 
-const service = ref<ServiceSummary | null>(null)
+const service = ref<Service | null>(null)
 const error = ref("")
 const loading = ref(false)
 
@@ -16,10 +16,10 @@ async function loadService(id: string){
     loading.value = true
     error.value = ""
     try { 
-        service.value = await servicesServices.getByID(id) as unknown as ServiceSummary
+        service.value = await servicesServices.getByID(id)
     } catch (err) {
-        error.value = "Cannot get service"
-        console.log(err)
+        error.value = 'Cannot get service.'
+        console.error(err)
     } finally {
         loading.value = false
     }
@@ -30,13 +30,14 @@ watch( () => props.serviceId, loadService, { immediate: true })
 
 <template>
     <section>
-        <h2>Service details</h2>
-        <p v-if="loading">Loading service...</p>
+        <h2>Service Details</h2>
+        <p v-if="loading">Loading service info...</p>
         <p v-else-if="error">{{ error }}</p>
         <div v-else-if="service">
-            <h3>{{ service.name }}</h3>
-            <p>({{ service.id }})</p>
-            <p>{{ service.description }}</p>
+            <h3>{{ service.ServiceName }}</h3>
+            <p>{{ service.Description }}</p>
+            <p>Price: {{ service.Price }}</p>
+            <p>Category: {{ service.Category }}</p>
         </div>
     </section>
 </template>
