@@ -273,4 +273,32 @@ describe("ServicesController", () => {
 
         expect(res.status).toHaveBeenCalledWith(400);
     })
+
+    test("Return_NotFoundOnGetByID__With404Status", async() => {
+        const service = {
+            ServiceID: "01a18e66-5fdb-73f6-9f36-fec1238c7d30",
+            ServiceName: "Lehm",
+            Price: 100,
+            Category: "Loomad",
+            Description: "Peseme teie lehma",
+        }
+
+        const req = {
+            params: {
+                id: "HEEEEEELP"
+            }
+        } as unknown as Request
+
+        const res = {
+            status: vi.fn().mockReturnThis(),
+            send: vi.fn().mockReturnThis(),
+        } as unknown as Response
+
+        mocks.FindByPk.mockResolvedValue(undefined);
+
+        await _ServicesController.getByID(req, res);
+
+        expect(mocks.FindByPk).toHaveBeenCalledWith("HEEEEEELP");
+        expect(res.status).toHaveBeenCalledWith(404);
+    })
 })
