@@ -70,9 +70,10 @@ describe("ContactsController", () => {
         ]);
 
         // Siia tuleb eesti keelne kokkuv6tte
+        // Return_AllContacts kutsub kontrolleri getAll meetodi ning võrdleb neid antud tingimustega
     });
 
-    test("Return_OneContactById_With200Status", async() => {
+    test("Return_OneContactByID_With200Status", async() => {
         const contact = // loome mock tabeli
         {
             ContactID: "01a18e66-5fdb-73f6-9f36-fec1238c7d30",
@@ -106,6 +107,7 @@ describe("ContactsController", () => {
         expect(res.send).toHaveBeenCalledWith(contact); // Kontrollib: kas vastuse "saadetis" on antud objekt (kontrolleris vastuse muutmisel jälgis mock neid andmeid)
 
         // Siia tuleb eesti keelne kokkuv6tte 
+        // Return_OneContactByID kutsub kontrolleri getByID meetodi ning võrdleb neid antud tingimustega
 
     });
 
@@ -137,6 +139,9 @@ describe("ContactsController", () => {
         expect(mocks.create).toHaveBeenCalledOnce(); // Kontrollime kas .create() on kutsuti välja
         expect(res.location).toHaveBeenCalledWith(`http://localhost:8080/contacts/${id}`); // Kontrollime kas res.location vastab antud parameetrile
         expect(res.sendStatus).toHaveBeenCalledWith(201); // Kontrollime kas res.sendStatus on 201
+        // Siia tuleb eesti keelne kokkuv6tte 
+        // Return_CreatedContact kutsub kontrolleri create meetodi ning võrdleb neid antud tingimustega
+    
     });
 
     test("Return_ModifiedByID_With201Status", async () => {
@@ -197,6 +202,8 @@ describe("ContactsController", () => {
         }) // kontrollime kas lõpp-andmetabeli ID, on sama mis algse
         expect(res.status).toHaveBeenCalledWith(201); // res status peab olema 201
     
+        // Siia tuleb eesti keelne kokkuv6tte 
+        // Return_ModifiedByID kutsub kontrolleri modifyByID meetodi ning võrdleb neid antud tingimustega
     });
 
     test("Return_NoContentOnDelete__With204Status", async () => { 
@@ -224,66 +231,76 @@ describe("ContactsController", () => {
         await _ContactsController.deleteByID(req, res); // kustume kontrolleri, et ei laiskleks
 
         expect(mocks.findByPk).toHaveBeenCalledWith(thisid); // kontrollime kas findByPk 
-        expect(contact.destroy).toHaveBeenCalledOnce();
-        expect(res.status).toHaveBeenCalledWith(204);
+        expect(contact.destroy).toHaveBeenCalledOnce(); // kontrollime kas destroy kutsuti üks kord
+        expect(res.status).toHaveBeenCalledWith(204); // kontrollime status = 204
+
+        // Siia tuleb eesti keelne kokkuv6tte 
+        // Return_NoContentOnDelete kutsub kontrolleri deleteByID meetodi ning võrdleb neid antud tingimustega
     });
 
     // Kolm loooooooooomingulist
 
     test("Return_NotFoundOnDelete__With404Status", async () => {
-        const thisid = "01a18e66-5fdb-73f6-9f36-fec1238c7d30";
+        const thisid = "01a18e66-5fdb-73f6-9f36-fec1238c7d30"; // id
 
-        const contact = {
+        const contact = { // mock kontakt
             ContactID: thisid,
             destroy: vi.fn().mockResolvedValue(undefined)
         }
 
-        mocks.findByPk.mockResolvedValue(undefined);
+        mocks.findByPk.mockResolvedValue(undefined); // mockime findByPk vastust undefined
 
-        const req = {
-            params: {
+        const req = { // 
+            params: { // params
                 id: "param param pam :D"
             }
-        } as unknown as Request
+        } as unknown as Request // Päring
 
         const res = {
-            status: vi.fn().mockReturnThis(),
-            send: vi.fn().mockReturnThis(),
-            //sendStatus: vi.fn().mockReturnThis(),
-        } as unknown as Response
+            status: vi.fn().mockReturnThis(), // status mokc
+            send: vi.fn().mockReturnThis(), // send mock
+            //sendStatus: vi.fn().mockReturnThis(), 
+        } as unknown as Response // Vastus
 
-        await _ContactsController.deleteByID(req, res);
+        await _ContactsController.deleteByID(req, res); // kutsume välja kontrolleri
 
-        expect(mocks.findByPk).toHaveBeenCalledWith("param param pam :D");
-        expect(res.status).toHaveBeenCalledWith(404);
+        expect(mocks.findByPk).toHaveBeenCalledWith("param param pam :D"); // findByPk kutsuti selle parameetriga
+        expect(res.status).toHaveBeenCalledWith(404); // status määrati 404ks
+
+        // Siia tuleb eesti keelne kokkuv6tte 
+        // Return_NotFoundOnDelete kutsub kontrolleri deleteByID meetodi ning võrdleb neid antud tingimustega
     });
 
     test("Return_MissingParametersOnCreate_With400Status", async () => {
-        const id = "0386cf61-3b95-4e2c-b7d8-662b3b9ba338"; // UUID
+        const id = "0386cf61-3b95-4e2c-b7d8-662b3b9ba338"; // UUID 
 
         mocks.create.mockResolvedValue({ ContactID: id}); // Kirjeldame, mis tulemust peab create() tagastama
 
         const req = {
-            protocol: "http",
-            get: vi.fn(() => "localhost:8080"),
-            body: {
+            protocol: "http", // Määrame protokolliks HTTP
+            get: vi.fn(() => "localhost:8080"), // Get funktsiooni vastuseks
+            body: { // Päringu keha: vajalikud andmeväljad
                 Name: "vi-contact-test4",
                 Description: "lehm",
                 PhoneNumber: "+372 76 79481"
             }
-        } as unknown as Request
+        } as unknown as Request // Loome HTTP päringu  
 
         const res = {
-            location: vi.fn().mockReturnThis(),
-            status: vi.fn().mockReturnThis(),
-            send: vi.fn().mockReturnThis()
-        } as unknown as Response
+            location: vi.fn().mockReturnThis(), // mock lok
+            status: vi.fn().mockReturnThis(), // mok sta
+            send: vi.fn().mockReturnThis() // mok send
+        } as unknown as Response // Vastus
 
 
         // action
-        await _ContactsController.create(req, res);
+        await _ContactsController.create(req, res); // kutsume päriskontroolleri
+        //milleks nii palju kommentaare????????
 
-        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.status).toHaveBeenCalledWith(400); // status = 400?
+
+        // Siia tuleb eesti keelne kokkuv6tte 
+        // Return_MissingParametersOnCreate kutsub kontrolleri create meetodi ning võrdleb neid antud tingimustega
     })
 
     test("Return_NotFoundOnGetByID_With404Status", async() => {
@@ -319,6 +336,8 @@ describe("ContactsController", () => {
         expect(res.status).toHaveBeenCalledWith(404); // Kontrollib: kas vastuse staatus on 404, (kontrolleris vastuse muutmisel jälgis mock neid andmeid)
 
         // Siia tuleb eesti keelne kokkuv6tte 
+        // Return_NotFoundOnGetByID kutsub kontrolleri getByID meetodi ning võrdleb neid antud tingimustega
+
     })
 
 })
