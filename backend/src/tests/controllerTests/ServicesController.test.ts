@@ -247,4 +247,30 @@ describe("ServicesController", () => {
         expect(mocks.FindByPk).toHaveBeenCalledWith("HEEEEEELP");
         expect(res.status).toHaveBeenCalledWith(404);
     });
+
+    test("Return_MissingParametersOnCreate__With400Status", async() => {
+        const id = "0386cf61-3b95-4e2c-b7d8-662b3b9ba338"
+
+        mocks.create.mockResolvedValue({ ServiceID: id });
+
+         const req = {
+            protocol: "http",
+            get: vi.fn(() => "localhost:8080"),
+            body: {
+                ServiceName: "Lehma pesemine",
+                Description: "lehm",
+                Category: "Lehmmmmmmm"
+            }
+        } as unknown as Request
+
+        const res = {
+            location: vi.fn().mockReturnThis(),
+            status: vi.fn().mockReturnThis(),
+            send: vi.fn().mockReturnThis()
+        } as unknown as Response
+
+        await _ServicesController.create(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+    })
 })
