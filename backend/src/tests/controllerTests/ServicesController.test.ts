@@ -134,7 +134,7 @@ describe("ServicesController", () => {
 
     })
 
-    test("Return_ModifiedGameById_With201Status", async() => {
+    test("Return_ModifiedServiceById_With201Status", async() => {
         mocks.FindByPk.mockResolvedValue({ ServiceID: "01a18e66-5fdb-73f6-9f36-fec1238c7d30"});
 
         const service = 
@@ -146,19 +146,61 @@ describe("ServicesController", () => {
             Description: "Peseme teie lehma"
         }
         mocks.update.mockResolvedValue([1]);
+        const req = {
+            protocol: "http",
+            get: vi.fn(()=>"localhost:8080"),
+            params: {
+                id: "01a18e66-5fdb-73f6-9f36-fec1238c7d30",
+            },
+            body: {
+                ServiceName: "Gorilla",
+                Price: 100,
+                Category: "Suured loomad",
+                Description: "Peseme teie gorilla puhtaks"
+            }
+        } as unknown as Request
+
+        const res = {
+            location: vi.fn().mockReturnThis(),
+            status: vi.fn().mockReturnThis(),
+            send: vi.fn().mockReturnThis()
+        } as unknown as Response
+
+        const result = await _ServicesController.modifyByID(req, res)
+
+        expect(mocks.FindByPk).toHaveBeenCalledWith(service.ServiceID)
+        expect(mocks.update).toHaveBeenCalledOnce()
+
+        const updatedService = mocks.update.mock.calls[0][0];
+
+        console.log("Updated Service:", updatedService);
+
+        expect(updatedService.ServiceName).toBe(req.body.ServiceName);
+        expect(updatedService.Price).toBe(req.body.Price);
+        expect(updatedService.Category).toBe(req.body.Category);
+        expect(updatedService.Description).toBe(req.body.Description);
+
+        expect(mocks.update.mock.calls[0][1]).toEqual({
+            where: {
+                ServiceID: service.ServiceID
+            }
+        })
+        expect(res.status).toHaveBeenCalledWith(201)
     })
 
 
     test("Return_NoContentOnDelete_With204Status", async() => {
-        const destroy = vi.fn();
         const thisid = "01a18e66-5fdb-73f6-9f36-fec1238c7d30" 
-        mocks.FindByPk.mockResolvedValue({ 
-            ServiceID: thisid
-        });
-
+        const service = {
+            ServiceID: thisid,
+            destroy: vi.fn().mockResolvedValueOnce(undefined)
+        }
+        
+        mocks.FindByPk.mockResolvedValue(service)
+        
         const req = {
             params: {
-                id: "01a18e66-5fdb-73f6-9f36-fec1238c7d30"
+                id: thisid
             }
         } as unknown as Request
 
@@ -171,12 +213,92 @@ describe("ServicesController", () => {
         
 
         expect(mocks.FindByPk).toHaveBeenCalledWith(thisid);
-        expect(destroy).toHaveBeenCalledOnce();
+        expect(service.destroy).toHaveBeenCalledOnce();
         expect(res.status).toHaveBeenCalledWith(204);
+    })
 
 
+    //loomingulised:
 
+    test("Return_NotFoundOnDelete__With404Status", async() => {
+        const thisid = "01a18e66-5fdb-73f6-9f36-fec1238c7d30";
 
+        const service = {
+            ServiceID: thisid,
+            destroy: vi.fn().mockResolvedValueOnce(undefined)
+        }
 
+        mocks.FindByPk.mockResolvedValue(undefined);
+
+        const req = {
+            params: {
+                id: "HEEEEEELP"
+            }
+        } as unknown as Request
+
+        const res = {
+            status: vi.fn().mockReturnThis(),
+            send: vi.fn().mockReturnThis(),
+            //sendStatus: vi.fn().mockReturnThis(),
+        } as unknown as Response
+
+        await _ServicesController.deleteByID(req, res);
+
+        expect(mocks.FindByPk).toHaveBeenCalledWith("HEEEEEELP");
+        expect(res.status).toHaveBeenCalledWith(404);
+    });
+
+    test("Return_MissingParametersOnCreate__With400Status", async() => {
+        const id = "0386cf61-3b95-4e2c-b7d8-662b3b9ba338"
+
+        mocks.create.mockResolvedValue({ ServiceID: id });
+
+         const req = {
+            protocol: "http",
+            get: vi.fn(() => "localhost:8080"),
+            body: {
+                ServiceName: "Lehma pesemine",
+                Description: "lehm",
+                Category: "Lehmmmmmmm"
+            }
+        } as unknown as Request
+
+        const res = {
+            location: vi.fn().mockReturnThis(),
+            status: vi.fn().mockReturnThis(),
+            send: vi.fn().mockReturnThis()
+        } as unknown as Response
+
+        await _ServicesController.create(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+    })
+
+    test("Return_NotFoundOnGetByID__With404Status", async() => {
+        const service = {
+            ServiceID: "01a18e66-5fdb-73f6-9f36-fec1238c7d30",
+            ServiceName: "Lehm",
+            Price: 100,
+            Category: "Loomad",
+            Description: "Peseme teie lehma",
+        }
+
+        const req = {
+            params: {
+                id: "HEEEEEELP"
+            }
+        } as unknown as Request
+
+        const res = {
+            status: vi.fn().mockReturnThis(),
+            send: vi.fn().mockReturnThis(),
+        } as unknown as Response
+
+        mocks.FindByPk.mockResolvedValue(undefined);
+
+        await _ServicesController.getByID(req, res);
+
+        expect(mocks.FindByPk).toHaveBeenCalledWith("HEEEEEELP");
+        expect(res.status).toHaveBeenCalledWith(404);
     })
 })
