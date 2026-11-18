@@ -8,6 +8,7 @@ import type { Service } from "../models/service.js";
 const ServicesController = {
 
     async create (req: express.Request, res: express.Response) {
+        // # swagger.tags = ['Services']
         console.log(req.body);
 
         const requiredFields = ["ServiceName", "Price", "Category", "Description"];
@@ -44,6 +45,7 @@ const ServicesController = {
     },
 
     async getAll(req: express.Request, res: express.Response) {
+        // # swagger.tags = ['Services']
         const services = await db.services.findAll();
         console.log("getAll: ", services);
         return res
@@ -58,6 +60,7 @@ const ServicesController = {
     },
 
     async getByID(req: express.Request, res: express.Response) {
+        // # swagger.tags = ['Services']
         const serviceID: string = req.params.id as string;
         console.log(serviceID);
         const service = await ServicesController.getService(req, res);
@@ -69,6 +72,7 @@ const ServicesController = {
     },   
 
     async modifyByID(req: express.Request, res: express.Response) {
+        // # swagger.tags = ['Services']
         const serviceToBeModified = await ServicesController.getService(req, res);
         if (!serviceToBeModified) {
             return;
@@ -84,18 +88,26 @@ const ServicesController = {
             })
         }   
 
-        serviceToBeModified.ServiceName = req.body.ServiceName;
-        serviceToBeModified.Price = req.body.Price;
-        serviceToBeModified.Category = req.body.Category;
-        serviceToBeModified.Description = req.body.Description;
+        // serviceToBeModified.ServiceName = req.body.ServiceName;
+        // serviceToBeModified.Price = req.body.Price;
+        // serviceToBeModified.Category = req.body.Category;
+        // serviceToBeModified.Description = req.body.Description;
 
-        await serviceToBeModified.save();
+        const modifiedService = {
+            ServiceName: req.body.ServiceName,
+            Price: req.body.Price,
+            Category: req.body.Category,
+            Description: req.body.Description
+        }
+
+        await db.services.update(modifiedService, { where: {ServiceID: req.params.id}});
         return res
         .location(`${Utilities.getBaseURL(req)}/services/${serviceToBeModified.ServiceID}`)
         .status(201)
         .send(serviceToBeModified);
     },
     async deleteByID(req: express.Request, res: express.Response) {
+        // # swagger.tags = ['Services']
         const serviceToBeDeleted = await ServicesController.getService(req, res);
         
         if (!serviceToBeDeleted) {
