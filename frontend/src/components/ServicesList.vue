@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { servicesServices } from '../services/servicesServices'
-import type { ServiceSummary } from '../types/ServiceSummary'
+import type { ServiceSummary } from '../types/Service'
 
 const services = ref<ServiceSummary[]>([])
 const loading = ref(false)
 const error = ref("")
+const emit = defineEmits<{
+    select: [id: string]
+}>()
 
 async function loadServices(){
     loading.value = true
@@ -32,7 +35,8 @@ onMounted(loadServices)
         <p v-else-if="services.length === 0">No services have been found</p>
         <ul v-else>
             <li v-for="service in services" :key="service.id">
-                {{ service.name }} ({{service.id}})
+                <button @click="emit('select', service.id)">{{ service.name }} </button>
+                ({{service.id}})
             </li>
         </ul>
     </section>

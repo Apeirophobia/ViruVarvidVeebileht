@@ -20,7 +20,7 @@ export const servicesServices = {
     getAll(): Promise<ServiceSummary[]> {
         return request<ServiceSummary[]>('/services')
     },
-    getbyId(id: string): Promise<Service> {
+    getByID(id: string): Promise<Service> {
         return request<Service>(`/services/${id}`)
     },
     create(service: ServiceInput): Promise<void> {
