@@ -258,4 +258,32 @@ describe("ContactsController", () => {
         expect(res.status).toHaveBeenCalledWith(404);
     });
 
+    test("Return_MissingParametersOnCreate_With400Status", async () => {
+        const id = "0386cf61-3b95-4e2c-b7d8-662b3b9ba338"; // UUID
+
+        mocks.create.mockResolvedValue({ ContactID: id}); // Kirjeldame, mis tulemust peab create() tagastama
+
+        const req = {
+            protocol: "http",
+            get: vi.fn(() => "localhost:8080"),
+            body: {
+                Name: "vi-contact-test4",
+                Description: "lehm",
+                PhoneNumber: "+372 76 79481"
+            }
+        } as unknown as Request
+
+        const res = {
+            location: vi.fn().mockReturnThis(),
+            status: vi.fn().mockReturnThis(),
+            send: vi.fn().mockReturnThis()
+        } as unknown as Response
+
+
+        // action
+        await _ContactsController.create(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+    })
+
 })
