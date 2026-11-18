@@ -94,7 +94,7 @@ const ContactsController = {
         }
 
         await contactToBeDeleted.destroy();
-        return res.sendStatus(204);
+        return res.status(204);
     },
 
     async getContact(req: express.Request, res: express.Response) {
