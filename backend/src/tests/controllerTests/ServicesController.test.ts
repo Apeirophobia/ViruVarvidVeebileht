@@ -216,4 +216,35 @@ describe("ServicesController", () => {
         expect(service.destroy).toHaveBeenCalledOnce();
         expect(res.status).toHaveBeenCalledWith(204);
     })
+
+
+    //loomingulised:
+
+    test("Return_NotFoundOnDelete__With404Status", async() => {
+        const thisid = "01a18e66-5fdb-73f6-9f36-fec1238c7d30";
+
+        const service = {
+            ServiceID: thisid,
+            destroy: vi.fn().mockResolvedValueOnce(undefined)
+        }
+
+        mocks.FindByPk.mockResolvedValue(undefined);
+
+        const req = {
+            params: {
+                id: "HEEEEEELP"
+            }
+        } as unknown as Request
+
+        const res = {
+            status: vi.fn().mockReturnThis(),
+            send: vi.fn().mockReturnThis(),
+            //sendStatus: vi.fn().mockReturnThis(),
+        } as unknown as Response
+
+        await _ServicesController.deleteByID(req, res);
+
+        expect(mocks.FindByPk).toHaveBeenCalledWith("HEEEEEELP");
+        expect(res.status).toHaveBeenCalledWith(404);
+    });
 })
