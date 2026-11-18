@@ -114,116 +114,116 @@ describe("ContactsController", () => {
 
         mocks.create.mockResolvedValue({ ContactID: id}); // Kirjeldame, mis tulemust peab create() tagastama
 
-        const req = {
-            protocol: "http",
-            get: vi.fn(() => "localhost:8080"),
-            body: {
-                Name: "vi-contact-test4",
-                Description: "lehm",
-                Email: "internetemittingcow@gmail.com",
-                PhoneNumber: "+372 76 79481"
+        const req = { 
+            protocol: "http", // Määrame protokolliks HTTP
+            get: vi.fn(() => "localhost:8080"), // Get funktsiooni vastuseks
+            body: { // Päringu keha: vajalikud andmeväljad
+                Name: "vi-contact-test4", // Nimi
+                Description: "lehm", // Kirejldus
+                Email: "internetemittingcow@gmail.com", // Email
+                PhoneNumber: "+372 76 79481" // Telefoninumber
             }
-        } as unknown as Request
+        } as unknown as Request // Loome HTTP päringu
 
-        const res = {
-            location: vi.fn().mockReturnThis(),
-            sendStatus: vi.fn().mockReturnThis()
-        } as unknown as Response
+        const res = { 
+            location: vi.fn().mockReturnThis(), // muutumisel mock jälgib location attribuuti
+            sendStatus: vi.fn().mockReturnThis() // muutumisel mock jälgib sendStatus attribuuti
+        } as unknown as Response // Loome HTTP vastuse
 
 
         // action
-        await _ContactsController.create(req, res);
+        await _ContactsController.create(req, res); // kutsume Create meetodi contactsControlleris
 
-        expect(mocks.create).toHaveBeenCalledOnce();
-        expect(res.location).toHaveBeenCalledWith(`http://localhost:8080/contacts/${id}`);
-        expect(res.sendStatus).toHaveBeenCalledWith(201);
+        expect(mocks.create).toHaveBeenCalledOnce(); // Kontrollime kas .create() on kutsuti välja
+        expect(res.location).toHaveBeenCalledWith(`http://localhost:8080/contacts/${id}`); // Kontrollime kas res.location vastab antud parameetrile
+        expect(res.sendStatus).toHaveBeenCalledWith(201); // Kontrollime kas res.sendStatus on 201
     });
 
     test("Return_ModifiedByID_With201Status", async () => {
         
-        mocks.findByPk.mockResolvedValue({ ContactID: "01a18e66-5fdb-73f6-9f36-fec1238c7d30"})
+        mocks.findByPk.mockResolvedValue({ ContactID: "01a18e66-5fdb-73f6-9f36-fec1238c7d30"}) // mockime findByPk vastuse
         
         const contact = // loome mock tabeli
         {
-            ContactID: "01a18e66-5fdb-73f6-9f36-fec1238c7d30",
+            ContactID: "01a18e66-5fdb-73f6-9f36-fec1238c7d30", // no need to explain ig
             Name:"vi-contacts-test1",
             Email: "cow@gmail.com",
-            Description: "Hobune",
+            Description: "Hobune", 
             PhoneNumber: "+123 2222 4444",
         }
 
-        mocks.update.mockResolvedValue([1]);
+        mocks.update.mockResolvedValue([1]); 
         
         const req = {
-            protocol: "http",
-            get: vi.fn(() => "localhost:8080"),
-            params: {
+            protocol: "http", // Määrame protokolliks HTTP
+            get: vi.fn(() => "localhost:8080"), // Get funktsiooni vastuseks
+            params: { // Päringu parameetrid: vajalik id
                 id: "01a18e66-5fdb-73f6-9f36-fec1238c7d30"
             },
-            body: {
-                Name: "Interneti Kiirgav Lehm",
-                Description: "lehm",
-                Email: "internetemittingcow@gmail.com",
-                PhoneNumber: "+372 76 79481"
+            body: { // Päringu keha: vajalikud andmeväljad
+                Name: "Interneti Kiirgav Lehm", // Nimi
+                Description: "lehm", // Kirjeldus
+                Email: "internetemittingcow@gmail.com", // Email
+                PhoneNumber: "+372 76 79481" // TelefoniNumber
             }
-        } as unknown as Request;
+        } as unknown as Request; // Loome HTTP päringu
 
         const res = {
-            location: vi.fn().mockReturnThis(),
-            status: vi.fn().mockReturnThis(),
-            send: vi.fn().mockReturnThis()
-        } as unknown as Response
+            location: vi.fn().mockReturnThis(), // muutumisel mock jälgib location attribuuti
+            status: vi.fn().mockReturnThis(), // muutumisel mock jälgib sendStatus attribuuti
+            send: vi.fn().mockReturnThis() // muutumisel mock jälgib send attribuuti
+        } as unknown as Response // Loome HTTP vastuse
 
         // action
-        const result = await _ContactsController.modifyByID(req, res) as unknown as Contact
+        const result = await _ContactsController.modifyByID(req, res) as unknown as Contact // ootame vastust (andmetabeli) päris kontrollerist
 
         // checks
-        expect(mocks.findByPk).toHaveBeenCalledWith(contact.ContactID);
-        expect(mocks.update).toHaveBeenCalledOnce();
+        expect(mocks.findByPk).toHaveBeenCalledWith(contact.ContactID); // kontrollime kas findByPk oli kutsutud antud parameetriga
+        expect(mocks.update).toHaveBeenCalledOnce(); // konrtollime, et update kutsuti välja üks kord
 
-        const updatedContact = mocks.update.mock.calls[0][0];
+        const updatedContact = mocks.update.mock.calls[0][0]; // saame uuendatud andmetabeli mock'i hoiusest
 
-        console.log("updatedContact: ", updatedContact);
+        console.log("updatedContact: ", updatedContact); 
 
-        expect(updatedContact.Name).toBe(req.body.Name);
-        expect(updatedContact.Email).toBe(req.body.Email);
-        expect(updatedContact.Description).toBe(req.body.Description);
-        expect(updatedContact.PhoneNumber).toBe(req.body.PhoneNumber);
+        expect(updatedContact.Name).toBe(req.body.Name); // kontrollime kas lõppandmed vastavad meie päringule
+        expect(updatedContact.Email).toBe(req.body.Email); // kontrollime kas lõppandmed vastavad meie päringule
+        expect(updatedContact.Description).toBe(req.body.Description); // kontrollime kas lõppandmed vastavad meie päringule
+        expect(updatedContact.PhoneNumber).toBe(req.body.PhoneNumber); // kontrollime kas lõppandmed vastavad meie päringule
 
         expect(mocks.update.mock.calls[0][1]).toEqual({
             where: {
                 ContactID: contact.ContactID
             }
-        })
-        expect(res.status).toHaveBeenCalledWith(201);
+        }) // kontrollime kas lõpp-andmetabeli ID, on sama mis algse
+        expect(res.status).toHaveBeenCalledWith(201); // res status peab olema 201
     
     });
 
-    test("Return_NoContentOnDelete__With204Status", async () => {
-        const thisid = "01a18e66-5fdb-73f6-9f36-fec1238c7d30";
+    test("Return_NoContentOnDelete__With204Status", async () => { 
+        const thisid = "01a18e66-5fdb-73f6-9f36-fec1238c7d30"; // peamine iD
 
-        const contact = {
-            ContactID: thisid,
-            destroy: vi.fn().mockResolvedValue(undefined)
+        const contact = { // dummy andmed
+            ContactID: thisid, // id
+            destroy: vi.fn().mockResolvedValue(undefined) // määrame destroy vastust
         }
 
-        mocks.findByPk.mockResolvedValue(contact);
+        mocks.findByPk.mockResolvedValue(contact); // möäärame findByPk vastust
 
-        const req = {
-            params: {
-                id: thisid
+        const req = { 
+            params: { // Määrame päringu keha
+                id: thisid // id
             }
-        } as unknown as Request
+        } as unknown as Request // Loome päringu
 
         const res = {
-            status: vi.fn().mockReturnThis(),
-            send: vi.fn().mockReturnThis(),
+            status: vi.fn().mockReturnThis(), // jälgime status
+            send: vi.fn().mockReturnThis(), // jälgime send
             //sendStatus: vi.fn().mockReturnThis(),
-        } as unknown as Response
+        } as unknown as Response // Loome vastuse
 
-        await _ContactsController.deleteByID(req, res);
+        await _ContactsController.deleteByID(req, res); // kustume kontrolleri, et ei laiskleks
 
-        expect(mocks.findByPk).toHaveBeenCalledWith(thisid);
+        expect(mocks.findByPk).toHaveBeenCalledWith(thisid); // kontrollime kas findByPk 
         expect(contact.destroy).toHaveBeenCalledOnce();
         expect(res.status).toHaveBeenCalledWith(204);
     });
@@ -322,3 +322,43 @@ describe("ContactsController", () => {
     })
 
 })
+
+
+/*
+
+
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠤⠴⢤⡶⠓⢐⣲⠤⠤⠤⠤⢄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠎⠀⠀⠀⢀⠞⠁⠀⠀⠀⠀⠀⠀⠈⢣⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣀⣀⣀⠀⠀⠀⠀
+⣠⣶⣾⣿⣿⣿⣿⣿⣿⣿⣷⣶⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⣤⡤⠿⠀⠀⠀⠤⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠒⠒⠒⠒⣤⣤⣤⣴⣁⣀⡗⠖⠚⠉⢕⠀⠀⠀⠀⢀⣠⣤⣴⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠀⠀
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣄⡀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣿⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⡈⡇⠀⢠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⠀
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡀⠀⠀⠀⣠⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣦⠀⠙⠛⢙⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀
+⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⡴⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣽⣿⣿⣿⣿⣿⣿⣿⣿⣷⣀⣠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀
+⠈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠻⣿⣿⣿⣿⣿⣿⣿⣦⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠄⣰⣿⣿⣿⣿⣿⠿⣿⡟⢃⣹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀
+⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⡟⠛⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣤⣾⣿⣿⣿⣿⣿⣿⣿⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣷⣿⣦⣼⣍⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀
+⠀⠀⠘⢿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠹⢿⣿⣿⣿⣿⣿⡇⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠁⠀⠀
+⠀⠀⠀⠀⠙⠻⣿⣿⣿⠟⠁⠀⠀⠀⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠻⢿⣿⣷⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠏⠉⢙⣻⠟⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠘⣿⣿⣄⠀⠀⠀⠀⠀⠀⠙⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠁⠀⡠⢀⡀⠀⠄⠀⠀⠀⠠⡀⠀⠀⠀⠀⡀⠀⢀⣀⠀⠀⢀⠠⠀⠀⠉⠛⢿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠙⠿⠟⠻⠿⠁⠴⢀⣤⠚⠁⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠈⡽⣽⣷⠿⣶⣶⣶⣶⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⢁⡠⠔⠚⠀⠀⠄⠀⠈⠀⠂⠀⠀⢠⠀⠀⠀⠈⠀⠉⠀⠈⠒⠒⡦⠀⠀⠁⠲⢠⠀⠻⣦⣼⣿⣿⣿⣿⣀⣀⣀⣠⡤⠶⠒⠒⠊⡟⠚⠣⢀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠈⠀⢸⠉⠉⠉⠉⠉⠙⠻⢿⣿⣿⣿⣿⣿⢋⢼⣭⠀⠀⠀⠀⠂⠀⠀⠀⠀⠀⠰⡀⠀⠀⠠⠀⣂⣀⠀⠀⠀⠀⠐⢀⠄⠀⣴⡀⢀⠌⠀⠘⡏⠀⠀⠀⠉⠉⠉⠉⠀⠀⠀⢀⡤⠚⠁⠀⠀⠈⠳⠤⡄⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠑⠒⠒⠒⠒⠐⠚⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠙⢛⡏⢸⠘⣤⢀⣿⣗⣀⠁⠈⠀⠀⠂⠐⠉⠀⠄⠘⠀⠈⣀⠀⠀⠐⠂⠐⠉⢡⣤⠾⢉⣠⡞⠀⠀⠀⠘⡀⠀⠀⠀⠀⢀⣀⡀⢀⠖⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⣀⠤⠒⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⡅⠌⠈⡎⢳⢹⡿⠝⣷⡀⠀⡀⠀⠀⡀⠀⠀⠁⣤⡀⠁⠐⡀⠀⠀⠀⢹⣿⠯⠔⡿⠀⢀⠀⢀⡀⠀⢱⠀⠀⠀⠀⢸⠀⠙⢮⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⡀⢀⠤⠊⠁⢠⠜⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⢞⠃⡆⠀⣁⠀⣎⣿⡀⢹⣷⠀⠀⠉⠱⠂⠀⠀⣄⣼⣿⣿⣇⡉⣀⠰⡀⣾⣿⠀⢀⡇⠀⠀⠀⠀⠀⢄⠀⢦⠀⠀⠀⢸⠀⠶⡎⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠈⠉⡀⠤⠀⡀⠉⠑⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠎⡌⠰⡅⢀⣿⠟⠁⢹⣷⣸⣿⠠⠈⣁⣃⡈⡄⠀⢽⣿⣿⡿⢋⠀⣉⡒⠠⠀⠨⠰⢼⠃⠀⠀⠀⢀⠔⠀⢀⠀⢳⠐⠢⠤⢿⡔⠳⢄⣀⣀⠀⠀⠀⡄⢒⣠⠄⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠰⠈⠂⠀⠀⠓⠉⢆⠀⠀⠀⠀⠀⠀⠀⠀⠀⢇⠀⣅⠗⣃⣿⣿⣀⣀⣀⣿⡿⠁⠀⠂⠥⢘⣹⣿⣦⣸⡈⢁⣄⣿⣿⣾⡷⠀⠆⠀⠀⠀⠉⠙⠒⠒⠂⢂⠄⠀⠑⠨⠷⡀⠀⠀⠘⠦⡀⠀⠀⠉⠉⡯⣤⠊⠉⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠒⠀⠀⠀⠠⠀⠀⠐⠐⠮⠠⠔⠒⢄⠀⠀⠀⠀⠀⠈⣶⠃⠈⢻⣿⣾⡽⢿⡿⢟⠀⠀⠰⠢⢄⠈⢿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⠀⡀⠀⠁⠐⠄⠀⠀⠀⠔⠀⠀⠀⠀⠘⡀⢱⣀⣀⡀⢀⣘⡆⠀⠀⠀⠑⣇⡄⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⠠⡀⠀⠄⠨⡑⠤⡀⠀⠰⠋⠁⠈⣹⣯⣼⡇⢽⣟⠀⠀⢀⡀⠀⡀⠁⠀⠈⠁⠀⠼⢿⣿⡿⠋⠀⠀⢀⠈⠀⠀⠀⠀⠨⠁⢀⠀⠀⠀⠀⠐⠀⠀⠂⢃⠀⠈⠉⠁⠀⠀⠀⠀⠀⣉⠙⠦⣀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠐⠀⠄⣀⠀⠉⠐⠒⠂⠀⠈⠀⠀⠖⠁⠀⡇⠀⠠⠐⣙⣿⣏⣻⢄⡈⠀⠀⡀⠠⠐⠄⠰⢄⡁⠀⠰⠀⠚⡙⠀⠀⠀⣄⠀⠤⠀⢀⠐⢀⠅⢀⠠⡀⠀⠀⠀⠠⠀⠠⠁⢸⡄⠀⠀⡤⠒⠒⠤⠊⠹⠀⠀⠉⠉⠈⠀⠐
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠨⢀⠄⠁⠀⡀⠍⡀⠀⠀⠀⢡⠀⡀⢀⢴⣯⣠⣾⣯⡏⢁⠘⠂⠄⠀⠀⡑⠢⡁⠊⠆⠀⠈⠁⠀⠁⠀⠤⠠⠀⠶⢈⠀⠈⡇⢇⠳⣄⢀⠀⠈⠀⠀⠀⢣⢴⠇⠀⠀⢧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠤⠔⠁⠈⠀⠀⠈⠀⠀⢈⠀⢀⡀⠘⠀⠕⢝⡟⡱⣿⣿⣿⣿⣀⡀⢅⢀⠢⠄⠀⠀⠁⠀⠈⠁⠳⡀⠁⣐⠁⠀⠀⢉⠒⢄⢈⡀⢼⡟⠿⣵⠀⠠⡀⠀⡀⠀⠀⡘⠣⠤⠜⠉⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠤⠔⠈⠂⠤⢅⠀⠀⠀⠀⡠⢀⠔⠁⠀⠸⣀⡱⡀⠀⣤⣴⣿⢎⠵⡛⢃⣷⣿⣯⢟⠬⡄⢁⢢⣀⣆⣮⣷⡷⠾⠷⠾⠷⡶⣷⢾⣶⣶⡾⠶⢿⣾⣿⣅⣽⢀⣧⣄⢱⣢⣮⠐⠄⡧⠒⠒⠒⢦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠔⠑⠀⠈⠈⠀⠁⠀⠀⠀⠀⢀⠀⠈⠁⢸⣿⣿⣼⣴⣷⣿⣿⣯⣿⡿⠟⠛⠉⠋⠟⢋⣁⣀⣀⡀⣀⡀⠀⡀⢮⢊⠠⢀⡀⢄⡀⣠⣴⠋⣻⣿⡿⡙⢿⡋⠁⢀⡸⠁⠀⠀⠀⠀⠣⠄⠀⠤⠔⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠁⠀⠁⠀⠀⠀⣽⣡⠻⣿⣿⣿⣿⡟⠫⣀⡦⡄⣀⠄⣀⠆⠹⣶⣿⡷⣿⣿⣻⣇⢨⢿⣦⣡⡷⣏⠚⠤⣵⡆⢫⠛⠣⡱⣎⡙⢾⡍⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠀⠀⠀⠀⠀⣿⣿⣾⣷⡉⡰⣜⠉⢠⡉⣷⣿⢿⡾⢟⣽⣳⣿⣾⣿⣿⣽⢿⡯⣿⡜⣷⢹⣽⣮⡛⠃⠋⢠⡮⠀⠁⠑⣧⠹⣌⢻⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠒⠀⣰⣿⣷⣿⣿⣿⡇⣿⣸⢇⠙⠻⢿⠿⢷⡟⣯⡝⢻⠛⡟⣉⣿⣬⠃⣾⢹⠉⠈⠁⠃⠀⠀⠠⠊⣀⠘⡇⢁⡏⣻⢷⡰⣜⢣⡠⠄⠲⢆⠀⠀⠂⠂⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣿⣻⣿⣿⢾⡟⢐⣟⣷⣿⡃⠀⠁⢠⣻⡅⢹⣧⣎⣇⢷⣿⠿⣿⢵⣽⢸⣤⣀⡄⠀⠀⢀⣀⣇⢈⣷⣾⠈⢰⠘⣧⢙⣿⡆⡱⣄⠀⠈⠱⠄⠀⠢⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣰⣿⣿⣿⣟⣫⣼⢣⣟⣽⢟⣿⣶⣖⣰⣾⢻⣃⣾⡇⣽⣿⣾⣿⣾⣿⣿⡏⣻⢹⣿⣿⣿⢘⣟⣿⣿⣿⣿⣿⣷⡏⠀⡁⠀⠯⡙⢮⣿⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+
+
+
+
+*/
