@@ -70,9 +70,9 @@ describe("ContactsController", () => {
         ]);
 
         // Siia tuleb eesti keelne kokkuv6tte
-    })
+    });
 
-        test("Return_OneContactById_With200Status", async() => {
+    test("Return_OneContactById_With200Status", async() => {
         const contact = // loome mock tabeli
         {
             ContactID: "01a18e66-5fdb-73f6-9f36-fec1238c7d30",
@@ -107,7 +107,7 @@ describe("ContactsController", () => {
 
         // Siia tuleb eesti keelne kokkuv6tte 
 
-    })
+    });
 
     test("Return_CreatedContact_With201Status", async () => {
         const id = "0386cf61-3b95-4e2c-b7d8-662b3b9ba338"; // UUID
@@ -197,7 +197,38 @@ describe("ContactsController", () => {
         })
         expect(res.status).toHaveBeenCalledWith(201);
     
-    })
+    });
+
+    test("Return_NoContentOnDelete__With204Status", async () => {
+        const thisid = "01a18e66-5fdb-73f6-9f36-fec1238c7d30";
+
+        const contact = {
+            ContactID: thisid,
+            destroy: vi.fn().mockResolvedValue(undefined)
+        }
+
+        mocks.findByPk.mockResolvedValue(contact);
+
+        const req = {
+            params: {
+                id: thisid
+            }
+        } as unknown as Request
+
+        const res = {
+            status: vi.fn().mockReturnThis(),
+            send: vi.fn().mockReturnThis(),
+            //sendStatus: vi.fn().mockReturnThis(),
+        } as unknown as Response
+
+        await _ContactsController.deleteByID(req, res);
+
+        expect(mocks.findByPk).toHaveBeenCalledWith(thisid);
+        expect(contact.destroy).toHaveBeenCalledOnce();
+        expect(res.status).toHaveBeenCalledWith(204);
+    });
+
+    // Kolm loooooooooomingulist
 
     
 })
