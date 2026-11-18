@@ -230,5 +230,32 @@ describe("ContactsController", () => {
 
     // Kolm loooooooooomingulist
 
-    
+    test("Return_NotFoundOnDelete__With404Status", async () => {
+        const thisid = "01a18e66-5fdb-73f6-9f36-fec1238c7d30";
+
+        const contact = {
+            ContactID: thisid,
+            destroy: vi.fn().mockResolvedValue(undefined)
+        }
+
+        mocks.findByPk.mockResolvedValue(undefined);
+
+        const req = {
+            params: {
+                id: "param param pam :D"
+            }
+        } as unknown as Request
+
+        const res = {
+            status: vi.fn().mockReturnThis(),
+            send: vi.fn().mockReturnThis(),
+            //sendStatus: vi.fn().mockReturnThis(),
+        } as unknown as Response
+
+        await _ContactsController.deleteByID(req, res);
+
+        expect(mocks.findByPk).toHaveBeenCalledWith("param param pam :D");
+        expect(res.status).toHaveBeenCalledWith(404);
+    });
+
 })
