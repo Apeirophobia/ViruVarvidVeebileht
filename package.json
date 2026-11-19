@@ -19,6 +19,10 @@
     "url": "https://github.com/Apeirophobia/ViruVarvidVeebileht/issues"
   },
   "homepage": "https://github.com/Apeirophobia/ViruVarvidVeebileht#readme",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "dependencies": {
     "concurrently": "^10.0.7",
     "nodemon": "^3.1.14"
