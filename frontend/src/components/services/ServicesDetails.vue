@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { servicesServices } from '../services/servicesServices'
-import type { Service } from '../types/ServiceSummary'
+import { servicesServices } from '../../services/servicesServices'
+import type { Service } from '../../types/ServiceSummary'
 
 const props = defineProps<{
     serviceId: string
