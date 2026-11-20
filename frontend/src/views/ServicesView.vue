@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import ServicesDetails from '../components/ServicesDetails.vue'
-import ServicesList from '../components/ServicesList.vue'
-import ServiceForm from '../components/ServiceForm.vue'
+import ServicesDetails from '../components/services/ServicesDetails.vue'
+import ServicesList from '../components/services/ServicesList.vue'
+import ServiceForm from '../components/services/ServiceForm.vue'
 import { servicesServices } from '../services/servicesServices'
 
 const selectedServiceId = ref<string | null>(null)
