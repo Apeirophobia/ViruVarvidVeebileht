@@ -8,6 +8,7 @@ export class Customer extends Model<InferAttributes<Customer>, InferCreationAttr
     declare DisplayName: string;
     declare Email: string;
     declare Password: string;
+    declare PasswordConfirmation: string | null;
 
     declare CustomerID: CreationOptional<string>;
     declare OrderIDList: CreationOptional<JSON | null>;
@@ -42,6 +43,10 @@ export default function initCustomerModel (
                 allowNull: true 
             },
             Password: {
+                type: DataTypes.STRING, 
+                allowNull: true 
+            },
+            PasswordConfirmation: {
                 type: DataTypes.STRING, 
                 allowNull: true 
             },
