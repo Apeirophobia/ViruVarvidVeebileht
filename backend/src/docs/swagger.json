@@ -1,7 +1,7 @@
 {
     "openapi":"3.0.3",
     "info": {
-        "title":"Games API",
+        "title":"Services API",
         "version":"1.0.0",
         "description": "Hajusrakenduste näidisprojekt"
     },
