@@ -72,7 +72,7 @@ watch(() => props.ContactID, loadContact, { immediate: true })
     <h2>{{ ContactID ? 'Edit Contact' : 'Create Contact' }}</h2>
 
     <form @submit.prevent="saveContact">
-      <label for="contactName">ContactName</label><br />
+      <label for="contactName">Name</label><br />
       <input id="contactName" v-model="form.Name" required /><br /><br />
 
       <label for="email">Email</label><br />

@@ -34,9 +34,9 @@ watch( () => props.ContactID, loadService, { immediate: true })
         <p v-if="loading">Loading contact info...</p>
         <p v-else-if="error">{{ error }}</p>
         <div v-else-if="contact">
-            <h3 id="contactDetailsName">{{ contact.Name }}</h3>
-            <p id="contactDetailsEmail">{{ contact.Email }}</p>
-            <p id="contactDetailsPhoneNumber">Price: {{ contact.PhoneNumber }}</p>
+            <h3 id="contactDetailsName">Name: {{ contact.Name }}</h3>
+            <p id="contactDetailsEmail">Email: {{ contact.Email }}</p>
+            <p id="contactDetailsPhoneNumber">PhoneNumber: {{ contact.PhoneNumber }}</p>
         </div>
     </section>
 </template>
