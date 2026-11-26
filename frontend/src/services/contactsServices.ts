@@ -23,4 +23,13 @@ export const contactsServices = {
     getByID(ContactID: string): Promise<Contact> {
         return request<Contact>(`/contacts/${ContactID}`)
     },
+    create(contact: ContactInput): Promise<void> {
+        return request<void>('/contacts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(contact)
+        })
+    },
 }
