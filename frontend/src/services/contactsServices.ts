@@ -19,5 +19,8 @@ async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
 export const contactsServices = {
     getAll(): Promise<ContactSummary[]> {
         return request<ContactSummary[]>('/contacts')
-    }
+    },
+    getByID(ContactID: string): Promise<Contact> {
+        return request<Contact>(`/contacts/${ContactID}`)
+    },
 }
