@@ -20,7 +20,9 @@ export const contactsServices = {
     getAll(): Promise<ContactSummary[]> {
         return request<ContactSummary[]>('/contacts')
     },
-
+    getByID(ContactID: string): Promise<Contact> {
+        return request<Contact>(`/contacts/${ContactID}`)
+    },
     create(contact: ContactInput): Promise<void> {
         return request<void>('/contacts', {
             method: 'POST',
