@@ -40,5 +40,10 @@ export const contactsServices = {
             },
             body: JSON.stringify(contact)
         })
+    },
+    delete (id: string): Promise<void> {
+        return request<void>(`/contacts/${id}`, {
+            method: 'DELETE'
+        })
     }
 }

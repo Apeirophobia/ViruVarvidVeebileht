@@ -28,6 +28,22 @@ function contactSaved() {
   detailsVersion.value++
 }
 
+async function deleteContact() {
+  if (!selectedContactId.value || !confirm('Delete this contact?')) return
+
+  error.value = ''
+
+  try {
+    await contactsServices.delete(selectedContactId.value)
+    selectedContactId.value = null
+    editing.value = false
+    listVersion.value++
+  } catch (err) {
+    error.value = 'Cannot delete this service'
+    console.error(err)
+  }
+}
+
 </script>
 
 <template>
@@ -45,6 +61,7 @@ function contactSaved() {
         :ContactID="selectedContactId"
       />
       <button id="editContact" @click="editing = true">Edit</button>
+      <button id="deleteContact" @click="deleteContact">Delete</button>
     </section>
 
     <section v-if="editing">
