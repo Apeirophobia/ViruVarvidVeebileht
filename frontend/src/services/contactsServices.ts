@@ -32,4 +32,13 @@ export const contactsServices = {
             body: JSON.stringify(contact)
         })
     },
+    update (id: string, contact: ContactInput): Promise<void> {
+        return request<void>(`/contacts/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(contact)
+        })
+    }
 }
