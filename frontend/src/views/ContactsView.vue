@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import ContactsList from '../components/contacts/ContactsList.vue'
 import { contactsServices} from '../services/contactsServices.ts';
+import ContactForm from '@/components/contacts/ContactForm.vue';
 
 const selectedContactId = ref<string | null>(null)
 const editing = ref(false)
@@ -19,6 +20,12 @@ function createContact() {
   editing.value = true
 }
 
+function contactSaved() {
+  editing.value = false
+  listVersion.value++
+  detailsVersion.value++
+}
+
 </script>
 
 <template>
@@ -30,6 +37,10 @@ function createContact() {
 
     <ContactsList :key="listVersion" @select="selectContact" />
 
+    <section v-if="editing">
+      <button id="cancelEdit" @click="editing = false">Cancel</button>
+      <ContactForm :ContactID="selectedContactId" @saved="contactSaved" />
+    </section>
 
   </main>
 </template>
