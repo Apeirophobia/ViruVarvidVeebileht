@@ -4,7 +4,7 @@ import { servicesServices } from '../../services/servicesServices'
 import type { Service, ServiceInput } from '../../types/ServiceSummary'
 
 const props = defineProps<{
-  serviceId?: string | null
+  ServiceID?: string | null
 }>()
 
 const emit = defineEmits<{
@@ -26,13 +26,13 @@ const saving = ref(false)
 
 async function loadService() {
   error.value = ''
-  if (!props.serviceId) {
+  if (!props.ServiceID) {
     form.value = emptyService()
     return
   }
 
   try {
-    const service: Service = await servicesServices.getByID(props.serviceId)
+    const service: Service = await servicesServices.getByID(props.ServiceID)
     form.value = {
       ServiceName: service.ServiceName,
       Price: service.Price,
@@ -50,9 +50,11 @@ async function saveService() {
   error.value = ''
 
   try {
-    if (props.serviceId) {
-      await servicesServices.update(props.serviceId, form.value)
+    if (props.ServiceID) {
+      console.log("Update: ServiceForm.vue");
+      await servicesServices.update(props.ServiceID, form.value)
     } else {
+      console.log("Create: ServiceForm.vue");
       await servicesServices.create(form.value)
     }
 
@@ -65,12 +67,12 @@ async function saveService() {
   }
 }
 
-watch(() => props.serviceId, loadService, { immediate: true })
+watch(() => props.ServiceID, loadService, { immediate: true })
 </script>
 
 <template>
   <section>
-    <h2>{{ serviceId ? 'Edit Service' : 'Create Service' }}</h2>
+    <h2>{{ ServiceID ? 'Edit Service' : 'Create Service' }}</h2>
 
     <form @submit.prevent="saveService">
       <label for="serviceName">Service Name</label><br />

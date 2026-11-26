@@ -2,7 +2,7 @@ import type { Service, ServiceInput, ServiceSummary } from '../types/ServiceSumm
 const API_URL = import.meta.env.VITE_BACKEND_URL
 
 async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
-    const response = await fetch(API_URL + endpoint, options) 
+    const response = await fetch("http://localhost:8080" + endpoint, options) 
 
     if (!response.ok) {
         throw new Error(
@@ -20,8 +20,8 @@ export const servicesServices = {
     getAll(): Promise<ServiceSummary[]> {
         return request<ServiceSummary[]>('/services')
     },
-    getByID(id: string): Promise<Service> {
-        return request<Service>(`/services/${id}`)
+    getByID(ServiceID: string): Promise<Service> {
+        return request<Service>(`/services/${ServiceID}`)
     },
     create(service: ServiceInput): Promise<void> {
         return request<void>('/services', {

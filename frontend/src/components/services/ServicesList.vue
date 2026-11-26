@@ -7,7 +7,7 @@ const services = ref<ServiceSummary[]>([])
 const loading = ref(false)
 const error = ref("")
 const emit = defineEmits<{
-    select: [id: string]
+    select: [ServiceID: string]
 }>()
 
 async function loadServices(){

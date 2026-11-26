@@ -11,8 +11,8 @@ const listVersion = ref(0)
 const detailsVersion = ref(0)
 const error = ref('')
 
-function selectService(id: string) {
-  selectedServiceId.value = id
+function selectService(ServiceID: string) {
+  selectedServiceId.value = ServiceID
   editing.value = false
 }
 
@@ -55,7 +55,7 @@ async function deleteService() {
     <section v-if="selectedServiceId && !editing">
       <ServicesDetails
         :key="`${selectedServiceId}-${detailsVersion}`"
-        :service-id="selectedServiceId"
+        :ServiceID="selectedServiceId"
       />
       <button @click="editing = true">Edit</button>
       <button @click="deleteService">Delete</button>
@@ -63,7 +63,7 @@ async function deleteService() {
 
     <section v-if="editing">
       <button @click="editing = false">Cancel</button>
-      <ServiceForm :service-id="selectedServiceId" @saved="serviceSaved" />
+      <ServiceForm :ServiceID="selectedServiceId" @saved="serviceSaved" />
     </section>
   </main>
 </template>

@@ -39,8 +39,9 @@ const ServicesController = {
         const newId = createdService.ServiceID 
 
         return res
-        .location(`${Utilities.getBaseURL(req)}/services/${createdService.ServiceID}`).sendStatus(201);
-
+        .location(`${Utilities.getBaseURL(req)}/services/${createdService.ServiceID}`)
+        .send({"OK": "OK"})
+        .status(201);
     },
 
     async getAll(req: express.Request, res: express.Response) {

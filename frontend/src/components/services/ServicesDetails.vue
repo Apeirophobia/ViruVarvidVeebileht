@@ -4,7 +4,7 @@ import { servicesServices } from '../../services/servicesServices'
 import type { Service } from '../../types/ServiceSummary'
 
 const props = defineProps<{
-    serviceId: string
+    ServiceID: string
 }>()
 
 const service = ref<Service | null>(null)
@@ -25,7 +25,7 @@ async function loadService(id: string){
     }
 }
 
-watch( () => props.serviceId, loadService, { immediate: true })
+watch( () => props.ServiceID, loadService, { immediate: true })
 </script>
 
 <template>
