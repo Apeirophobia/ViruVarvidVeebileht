@@ -38,14 +38,18 @@ function contactSaved() {
     <p v-if="error">{{ error }}</p>
 
     <ContactsList :key="listVersion" @select="selectContact" />
+
     <ContactsDetails
       :key="`${selectedContactId}-${detailsVersion}`"
       :ContactID="selectedContactId"
     />
-    
+
     <section v-if="editing">
+      
       <button id="cancelEdit" @click="editing = false">Cancel</button>
       <ContactForm :ContactID="selectedContactId" @saved="contactSaved" />
+    </section>
+
     <section v-if="selectedContactId && !editing">
    
     </section>
