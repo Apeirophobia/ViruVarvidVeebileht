@@ -39,10 +39,12 @@ function contactSaved() {
 
     <ContactsList :key="listVersion" @select="selectContact" />
 
-    <ContactsDetails
-      :key="`${selectedContactId}-${detailsVersion}`"
-      :ContactID="selectedContactId"
-    />
+    <section v-if="selectedContactId && !editing">
+      <ContactsDetails
+        :key="`${selectedContactId}-${detailsVersion}`"
+        :ContactID="selectedContactId"
+      />
+    </section>
 
     <section v-if="editing">
       
@@ -50,9 +52,6 @@ function contactSaved() {
       <ContactForm :ContactID="selectedContactId" @saved="contactSaved" />
     </section>
 
-    <section v-if="selectedContactId && !editing">
-   
-    </section>
 
   </main>
 </template>
