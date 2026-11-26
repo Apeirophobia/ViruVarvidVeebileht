@@ -44,6 +44,7 @@ function contactSaved() {
         :key="`${selectedContactId}-${detailsVersion}`"
         :ContactID="selectedContactId"
       />
+      <button id="editContact" @click="editing = true">Edit</button>
     </section>
 
     <section v-if="editing">
