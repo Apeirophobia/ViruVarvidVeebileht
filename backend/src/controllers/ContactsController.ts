@@ -26,7 +26,7 @@ const ContactsController = {
         const createdContact = await db.contacts.create(newContact);
         return res
             .location(`${Utilities.getBaseURL(req)}/contacts/${createdContact.ContactID}`)
-            .send({"OK": "OK"});
+            .send({"OK": "OK"})
             .status(201);
     },
 
