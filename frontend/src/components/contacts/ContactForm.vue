@@ -50,7 +50,7 @@ async function saveContact() {
   try {
     if (props.ContactID) {
 
-      // await contactsServices.update(props.ContactID, form.value)
+      await contactsServices.update(props.ContactID, form.value)
     } else {
       await contactsServices.create(form.value)
     }
