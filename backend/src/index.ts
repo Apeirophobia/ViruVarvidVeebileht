@@ -5,6 +5,7 @@ import cors from "cors";
 
 import swaggerUI from "swagger-ui-express";
 import swaggerDoc from "./docs/swagger.json" with {type: "json"}
+//import swaggerDoc from "./docs/swagger-autogen.json" with {type: "json"}
 
 import { sync } from "./db.ts";
 import appRoutes from "./routes/appRoutes.ts";

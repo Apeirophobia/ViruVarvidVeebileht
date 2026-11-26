@@ -6,6 +6,7 @@ import { v7 as uuidv7 } from "uuid";
 const ContactsController = {
 
     async create(req: express.Request, res: express.Response) {
+        // # swagger.tags = ['Contacts']
         if (
             !req.body.Name ||
             !req.body.Email ||
@@ -30,6 +31,7 @@ const ContactsController = {
     },
 
     async getAll(req: express.Request, res: express.Response) {
+        // # swagger.tags = ['Contacts']
         const contacts = await db.contacts.findAll();
         return res.status(200).send(
             contacts.map(({ ContactID, Name }) => ({ ContactID, Name }))
@@ -37,6 +39,7 @@ const ContactsController = {
     },
 
     async getByID(req: express.Request, res: express.Response) {
+        // # swagger.tags = ['Contacts']
         const contact = await ContactsController.getContact(req, res);
         if (!contact) {
             return;
@@ -45,6 +48,7 @@ const ContactsController = {
     },
 
     async modifyByID(req: express.Request, res: express.Response) {
+        // # swagger.tags = ['Contacts']
         const contactToBeModified = await ContactsController.getContact(req, res);
         if (!contactToBeModified) {
             return;
@@ -53,32 +57,44 @@ const ContactsController = {
         if (
             !req.body.Name ||
             !req.body.Email ||
-            !req.body.PhoneNumber
+            !req.body.PhoneNumber ||
+            !req.body.Description
         ) {
             return res.status(400).send({
                 error: "Missing parameters, please review data"
             });
         }
 
+        /*
         contactToBeModified.Name = req.body.Name;
         contactToBeModified.Email = req.body.Email;
         contactToBeModified.PhoneNumber = req.body.PhoneNumber;
+        */
 
-        await contactToBeModified.save();
+        const modifiedContact = {
+            Name: req.body.Name,
+            Email: req.body.Email,
+            Description: req.body.Description,
+            PhoneNumber: req.body.PhoneNumber
+        }
+
+        await db.contacts.update(modifiedContact, { where: {ContactID: req.params.id}});
+        
         return res
             .location(`${Utilities.getBaseURL(req)}/contacts/${contactToBeModified.ContactID}`)
-            .status(200)
-            .send(contactToBeModified);
+            .status(201)
+            .send(modifiedContact);
     },
 
     async deleteByID(req: express.Request, res: express.Response) {
+        // # swagger.tags = ['Contacts']
         const contactToBeDeleted = await ContactsController.getContact(req, res);
         if (!contactToBeDeleted) {
             return;
         }
 
         await contactToBeDeleted.destroy();
-        return res.sendStatus(204);
+        return res.status(204);
     },
 
     async getContact(req: express.Request, res: express.Response) {
