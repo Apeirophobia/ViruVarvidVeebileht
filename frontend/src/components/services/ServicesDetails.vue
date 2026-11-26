@@ -34,10 +34,10 @@ watch( () => props.ServiceID, loadService, { immediate: true })
         <p v-if="loading">Loading service info...</p>
         <p v-else-if="error">{{ error }}</p>
         <div v-else-if="service">
-            <h3>{{ service.ServiceName }}</h3>
-            <p>{{ service.Description }}</p>
-            <p>Price: {{ service.Price }}</p>
-            <p>Category: {{ service.Category }}</p>
+            <h3 id="serviceDetailsName">{{ service.ServiceName }}</h3>
+            <p id="serviceDetailsDescription">{{ service.Description }}</p>
+            <p id="serviceDetailsPrice">Price: {{ service.Price }}</p>
+            <p id="serviceDetailsCategory">Category: {{ service.Category }}</p>
         </div>
     </section>
 </template>
