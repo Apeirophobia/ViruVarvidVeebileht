@@ -14,19 +14,11 @@ function selectContact(ContactID: string) {
   editing.value = false
 }
 
-function createContact() {
-  selectedContactId.value = null
-  editing.value = true
-}
-
 </script>
 
 <template>
   <main>
     <h1>Contacts</h1>
-
-    <button id="createService" @click="createContact">Add contact</button>
-    <p v-if="error">{{ error }}</p>
 
     <ContactsList :key="listVersion" @select="selectContact" />
 

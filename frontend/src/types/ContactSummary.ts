@@ -14,6 +14,7 @@ export interface Contact {
 
 //create
 export interface ContactInput {
+    ContactID: string,
     Name: string,
     Email: string,
     PhoneNumber: string | null,
