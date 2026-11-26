@@ -11,8 +11,8 @@ import ServicesView from "./views/ServicesView.vue";
       <h1>Viru Värvid</h1>
       <nav>
         <!-- validate that user is logged in here, block off any routerlinks that unlogged in user shouldnt have access to -->
-        <RouterLink to="/services">Services</RouterLink>
-        <RouterLink to="/register">Register</RouterLink>
+        <RouterLink id="RL_Services" to="/services">Services</RouterLink>
+        <RouterLink id="RL_Register" to="/register">Register</RouterLink>
       </nav>
     </header>
 

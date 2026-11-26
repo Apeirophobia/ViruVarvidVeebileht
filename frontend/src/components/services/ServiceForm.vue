@@ -89,7 +89,7 @@ watch(() => props.ServiceID, loadService, { immediate: true })
 
       <p v-if="error">{{ error }}</p>
 
-      <button type="submit" :disabled="saving">
+      <button id="saveService" type="submit" :disabled="saving">
         {{ saving ? 'Saving service...' : 'Save Service' }}
       </button>
     </form>

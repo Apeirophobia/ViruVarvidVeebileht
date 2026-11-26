@@ -35,7 +35,7 @@ onMounted(loadServices)
         <p v-else-if="services.length === 0">No services have been found</p>
         <ul v-else>
             <li v-for="service in services" :key="service.ServiceID">
-                <button @click="emit('select', service.ServiceID)">{{ service.ServiceName }} </button>
+                <button id="openDetails" @click="emit('select', service.ServiceID)">{{ service.ServiceName }} </button>
                 ({{ service.ServiceID }})
             </li>
         </ul>
