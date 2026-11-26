@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import ContactsList from '../components/contacts/ContactsList.vue'
+import ContactsDetails from '../components/contacts/ContactsDetails.vue'
 import { contactsServices} from '../services/contactsServices.ts';
 import ContactForm from '@/components/contacts/ContactForm.vue';
+
 
 const selectedContactId = ref<string | null>(null)
 const editing = ref(false)
@@ -36,10 +38,16 @@ function contactSaved() {
     <p v-if="error">{{ error }}</p>
 
     <ContactsList :key="listVersion" @select="selectContact" />
-
+    <ContactsDetails
+      :key="`${selectedContactId}-${detailsVersion}`"
+      :ContactID="selectedContactId"
+    />
+    
     <section v-if="editing">
       <button id="cancelEdit" @click="editing = false">Cancel</button>
       <ContactForm :ContactID="selectedContactId" @saved="contactSaved" />
+    <section v-if="selectedContactId && !editing">
+   
     </section>
 
   </main>
